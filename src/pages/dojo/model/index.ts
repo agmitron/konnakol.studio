@@ -1,8 +1,8 @@
 import { combine, createEffect, createEvent, createStore, sample, UnitValue } from 'effector';
 import { DEFAULT_BPM } from '~/constants';
-import { isRepeatingCheckboxChanged, listenButtonClicked, pitcherUpdated, playButtonClicked, promptBPMFx, stopButtonClicked } from '~/features/dojo/ui';
+import { isRepeatingCheckboxChanged, listenButtonClicked, pitcherUpdated, playButtonClicked, stopButtonClicked } from '~/pages/dojo/ui/events';
 import Composition, { CompositionId, ICompositionState } from '~/entities/composition/model';
-import * as validation from '~/features/dojo/ui/validation';
+import * as validation from '~/pages/dojo/ui/validation';
 import { $frequency, $pitcher, $webAudio, DetectPitchInBackgroundFxParams, initializeWebAudioApiFx } from '~/shared/pitch';
 import { and, delay, reset } from 'patronum';
 import { $score, Correctness, ScoreSource, ScoreString, updateScore } from './score';
@@ -154,11 +154,11 @@ sample({
   target: $pitcher
 })
 
-sample({
-  clock: promptBPMFx.doneData,
-  fn: validation.bpm,
-  target: $bpm
-})
+// sample({
+//   clock: promptBPMFx.doneData,
+//   fn: validation.bpm,
+//   target: $bpm
+// })
 
 sample({
   clock: $composition,

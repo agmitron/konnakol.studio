@@ -39,6 +39,8 @@ export interface CompositeUnit<Children extends Unit[]> extends Unit {
   readonly children: Children
 }
 
+export type Beat = Unit & WithFrequencies
+
 export const hasFrequencies = (
   unit: Unit
 ): unit is Unit & WithFrequencies => Boolean((unit as Unit & WithFrequencies).frequencies)

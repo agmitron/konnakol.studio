@@ -39,10 +39,10 @@ function CreateUnitDialog() {
             />
             <FrequenciesGrid
               frequencies={frequencies}
-              addFrequency={form.frequencies.add}
-              updateFrequency={form.frequencies.update}
-              removeFrequency={form.frequencies.remove}
-              pitchFrequency={form.frequencies.pitch}
+              add={form.frequencies.add}
+              update={form.frequencies.update}
+              remove={form.frequencies.remove}
+              pitch={form.frequencies.pitch}
               pitching={pitching}
             />
           </DialogContent>

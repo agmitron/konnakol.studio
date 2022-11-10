@@ -4,8 +4,7 @@ import { areFrequenciesCorrect } from '~/utils/frequency.utils';
 import { bpmToMilliseconds } from '~/utils/tempo.utils';
 import Chord from './Chord';
 import Note from './Note';
-import { Beat } from './shared';
-import Unit, { CompositeUnit, UnitKind, UnitType } from './Unit';
+import Unit, { CompositeUnit, UnitKind, UnitType, Beat } from './Unit';
 
 export const isRoll = (unit: Unit): unit is Roll => unit instanceof Roll
 

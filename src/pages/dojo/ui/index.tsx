@@ -9,7 +9,7 @@ import {
   pitcherUpdated,
   playButtonClicked,
   stopButtonClicked,
-} from "~/features/dojo/ui";
+} from "~/pages/dojo/ui/events";
 import {
   $bpm,
   $composition,
@@ -18,12 +18,12 @@ import {
   $isRepeating,
   compositionRequested,
   $compositionState,
-} from "~/features/dojo/model";
+} from "~/pages/dojo/model";
 import { useStore } from "effector-react";
-import { $failed, $success } from "~/features/dojo/model/score";
+import { $failed, $success } from "~/pages/dojo/model/score";
 import { useParams } from "react-router-dom";
-import { pitchers } from '~/shared/pitch/shared';
-import { $frequency, $pitcher } from '~/shared/pitch';
+import { pitchers } from "~/shared/pitch/shared";
+import { $frequency, $pitcher } from "~/shared/pitch";
 
 function Dojo() {
   const composition = useStore($composition);

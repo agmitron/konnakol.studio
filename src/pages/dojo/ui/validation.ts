@@ -14,11 +14,9 @@ export const bpm = (value: ReturnType<typeof prompt>) => {
   return numberValue
 }
 
-export const pitcher = (value: string): PitcherName => {
-  const validatedValue = value as PitcherName
-  
-  if (pitchers[validatedValue]) {
-    return validatedValue
+export const pitcher = (value: string): PitcherName => {  
+  if (value in pitchers) {
+    return value as PitcherName
   }
 
   throw new Error(`Incorrect pitcher given: ${value}`)
