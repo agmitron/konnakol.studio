@@ -1,17 +1,16 @@
-import { combine, createEffect, createEvent, createStore, sample, UnitValue } from 'effector';
-import { DEFAULT_BPM } from '~/constants';
-import { isRepeatingCheckboxChanged, listenButtonClicked, pitcherUpdated, playButtonClicked, stopButtonClicked } from '~/pages/dojo/ui/events';
-import Composition, { CompositionId, ICompositionState } from '~/entities/composition/model';
-import * as validation from '~/pages/dojo/ui/validation';
-import { $frequency, $pitcher, $webAudio, DetectPitchInBackgroundFxParams, initializeWebAudioApiFx } from '~/shared/pitch';
-import { and, delay, reset } from 'patronum';
-import { $score, Correctness, ScoreSource, ScoreString, updateScore } from './score';
-import { NonNullableStructure } from '~/utils/types.utils';
-import Tact from '~/entities/composition/model/Tact';
-import { bpmToMilliseconds } from '~/utils/tempo.utils';
-import { SingleUnit } from '~/entities/unit/shared';
-import { loadComposition } from '../api/compositions';
-import { pitchers } from '~/shared/pitch/shared';
+import { combine, createEffect, createEvent, createStore, sample, UnitValue } from 'effector'
+import Composition, { CompositionId, ICompositionState } from '~/entities/composition/model'
+
+import { and, delay, reset } from 'patronum'
+import { NonNullableStructure } from '~/utils/types.utils'
+import { bpmToMilliseconds } from '~/utils/tempo.utils'
+import { $frequency, $pitcher, $webAudio } from '~/shared/pitch'
+import { DEFAULT_BPM } from '~/constants'
+import { $score, ScoreSource, ScoreString, Correctness, updateScore } from '~/features/dojo/score'
+import { pitchers } from '~/shared/pitch/shared'
+import * as validation from './validation'
+import { loadCompositionFx } from '~/entities/composition/api'
+
 
 interface RepeatCompositionSource {
   composition: Composition | null
@@ -28,19 +27,6 @@ type CheckCompositionParams = NonNullableStructure<CheckCompositionSource>
 type RepeatCompositionParams = NonNullableStructure<RepeatCompositionSource>
 
 type CheckCompositionFx = (params: CheckCompositionParams) => void
-
-export const startCheckingFrequencyInBackground = createEvent()
-export const fractionUpdated = createEvent<SingleUnit>()
-export const tactUpdated = createEvent<Tact>()
-export const loopIncremented = createEvent()
-export const compositionRequested = createEvent<CompositionId>()
-export const compositionSubscribed = createEvent()
-export const compositionUnsubscribed = createEvent()
-export const compositionUpdated = createEvent<ICompositionState>()
-
-export const loadCompositionFx = createEffect(
-  (id: CompositionId) => loadComposition(id)
-)
 
 export const subscribeCompositionUpdatesFx = createEffect(
   (composition: Composition) => composition.subscribe(compositionUpdated)
@@ -65,6 +51,7 @@ export const $compositionState = createStore<ICompositionState | null>(null)
 export const $isRepeating = createStore(false)
 export const $loopIndex = createStore(0);
 export const $isListening = $webAudio.map(Boolean)
+
 export const $scoreSource = combine({
   frequency: $frequency,
   loop: $loopIndex,
@@ -78,10 +65,17 @@ export const compositionFinished = delay({
   timeout: $bpm.map(bpmToMilliseconds)
 })
 
-reset({
-  clock: compositionFinished,
-  target: [$compositionState, $frequency, $score]
-})
+export const compositionRequested = createEvent<CompositionId>()
+export const loopIncremented = createEvent()
+export const compositionSubscribed = createEvent()
+export const compositionUnsubscribed = createEvent()
+export const compositionUpdated = createEvent<ICompositionState>()
+export const compositionStarted = createEvent()
+export const compositionStopped = createEvent()
+export const listenButtonClicked = createEvent()
+export const enterBPMButtonClicked = createEvent()
+export const pitcherUpdated = createEvent<string>()
+export const isRepeatingToggled = createEvent<boolean>()
 
 sample({
   clock: compositionRequested,
@@ -93,8 +87,13 @@ sample({
   target: $composition
 })
 
+reset({
+  clock: compositionFinished,
+  target: [$compositionState, $frequency, $score]
+})
+
 sample({
-  clock: isRepeatingCheckboxChanged,
+  clock: isRepeatingToggled,
   target: $isRepeating
 })
 
@@ -132,7 +131,7 @@ sample({
 })
 
 sample({
-  clock: playButtonClicked,
+  clock: compositionStarted,
   source: { composition: $composition, bpm: $bpm },
   filter: (sourceData: CheckCompositionSource): sourceData is CheckCompositionParams => Boolean(sourceData.composition),
   target: playCompositionFx
@@ -154,12 +153,6 @@ sample({
   target: $pitcher
 })
 
-// sample({
-//   clock: promptBPMFx.doneData,
-//   fn: validation.bpm,
-//   target: $bpm
-// })
-
 sample({
   clock: $composition,
   filter: Boolean,
@@ -168,13 +161,7 @@ sample({
 })
 
 sample({
-  clock: listenButtonClicked,
-  source: $webAudio,
-  target: initializeWebAudioApiFx
-})
-
-sample({
-  clock: stopButtonClicked,
+  clock: compositionFinished,
   source: $composition,
   filter: Boolean,
   target: stopCompositionFx

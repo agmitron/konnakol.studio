@@ -1,5 +1,5 @@
 import { Pattern } from '~/entities/composition/model';
-import Tact from '~/entities/composition/model/Tact';
+import Tact from '~/entities/unit/tact/model';
 import Chord from '~/entities/unit/chord/model';
 import Note, { isNote } from '~/entities/unit/note/model';
 import Roll from '~/entities/unit/roll/model';

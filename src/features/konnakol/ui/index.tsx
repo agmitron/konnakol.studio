@@ -1,6 +1,6 @@
 import { TextField } from "@mui/material";
 import { useStore } from "effector-react";
-import Tact from "~/entities/composition/tact/ui";
+import Tact from "~/entities/unit/tact/ui";
 import { $composition, $konnakol, konnakolChanged } from '../model';
 
 const Sheet = () => {

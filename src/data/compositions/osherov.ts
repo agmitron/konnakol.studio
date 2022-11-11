@@ -1,5 +1,5 @@
 import Composition from '~/entities/composition/model'
-import Tact from '~/entities/composition/model/Tact'
+import Tact from '~/entities/unit/tact/model'
 import Chord from '~/entities/unit/chord/model'
 import Note from '~/entities/unit/note/model'
 import { DKurd } from '../instruments'

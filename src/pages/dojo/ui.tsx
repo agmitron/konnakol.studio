@@ -1,16 +1,14 @@
 import React, { useEffect, useMemo } from "react";
 import "./Dojo.css";
-import Tact from "~/entities/composition/tact/ui";
+import Tact from "~/entities/unit/tact/ui";
 
 import {
   enterBPMButtonClicked,
-  isRepeatingCheckboxChanged,
+  isRepeatingToggled,
   listenButtonClicked,
   pitcherUpdated,
-  playButtonClicked,
-  stopButtonClicked,
-} from "~/pages/dojo/ui/events";
-import {
+  compositionStarted,
+  compositionFinished,
   $bpm,
   $composition,
   $isListening,
@@ -18,9 +16,11 @@ import {
   $isRepeating,
   compositionRequested,
   $compositionState,
-} from "~/pages/dojo/model";
+  compositionStopped,
+} from "~/features/dojo/model";
+
 import { useStore } from "effector-react";
-import { $failed, $success } from "~/pages/dojo/model/score";
+import { $failed, $success } from "~/features/dojo/score";
 import { useParams } from "react-router-dom";
 import { pitchers } from "~/shared/pitch/shared";
 import { $frequency, $pitcher } from "~/shared/pitch";
@@ -79,7 +79,7 @@ function Dojo() {
             <button
               disabled={!isListening}
               onClick={() =>
-                !isPlaying ? playButtonClicked() : stopButtonClicked()
+                !isPlaying ? compositionStarted() : compositionStopped()
               }
             >
               {isPlaying ? "Stop" : "Play"}
@@ -96,7 +96,7 @@ function Dojo() {
                 type="checkbox"
                 checked={isRepeating}
                 onChange={({ target: { checked } }) =>
-                  isRepeatingCheckboxChanged(checked)
+                  isRepeatingToggled(checked)
                 }
               />
             </label>
