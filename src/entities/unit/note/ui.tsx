@@ -1,12 +1,12 @@
 import { Selectable } from "~/shared/utils/types.utils";
 
-interface INoteComponentProps extends Selectable {
+interface INote extends Selectable {
   symbol: string;
   color?: string;
 }
 
-function NoteComponent({ color = "black", symbol }: INoteComponentProps) {
+function Note({ color = "black", symbol }: INote) {
   return <span style={{ color }}>{symbol}</span>;
 }
 
-export default NoteComponent;
+export default Note;

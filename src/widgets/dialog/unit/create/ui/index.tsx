@@ -21,7 +21,7 @@ function CreateUnitDialog() {
   return (
     <>
       {
-        <Dialog open={isOpen} onClose={() => close()} fullWidth>
+        <Dialog open={isOpen} onClose={() => popup.close()} fullWidth>
           <DialogTitle>Edit Unit</DialogTitle>
           <DialogContent>
             <DialogContentText>Edit an existing unit.</DialogContentText>

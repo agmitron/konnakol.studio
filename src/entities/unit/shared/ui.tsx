@@ -1,6 +1,4 @@
-import "./Unit.css";
 import React from "react";
-import classNames from "classnames";
 import Note from "~/entities/unit/note/ui";
 import Chord from "~/entities/unit/chord/ui";
 import Roll from "~/entities/unit/roll/ui";
@@ -8,13 +6,27 @@ import Unit from "~/entities/unit/shared";
 import { isNote } from "~/entities/unit/note/model";
 import { isChord } from "~/entities/unit/chord/model";
 import { isRoll } from "~/entities/unit/roll/model";
+import { styled } from "@mui/material";
 
 interface IUnitProps {
   unit: Unit;
-  selected?: boolean;
+  isSelected?: boolean;
 }
 
-const UnitComponent: React.FC<IUnitProps> = ({ unit, selected = false }) => {
+const Root = styled("div")`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  padding: 20px;
+  border-radius: ${(p: { isSelected: boolean }) => (p.isSelected ? "5px" : 0)};
+  background-color: ${(p: { isSelected: boolean }) =>
+    p.isSelected ? "rgba(239, 177, 60, 0.5)" : "transparent"};
+`;
+
+const UnitWrapper: React.FC<IUnitProps> = ({ unit, isSelected = false }) => {
   let component = <div>???</div>;
 
   if (isNote(unit)) {
@@ -29,15 +41,7 @@ const UnitComponent: React.FC<IUnitProps> = ({ unit, selected = false }) => {
     component = <Roll beats={unit.children} />;
   }
 
-  return (
-    <div
-      className={classNames("unit-wrapper", {
-        "unit-wrapper--selected": selected,
-      })}
-    >
-      {component}
-    </div>
-  );
+  return <Root isSelected={isSelected}>{component}</Root>;
 };
 
-export default UnitComponent;
+export default UnitWrapper;

@@ -1,14 +1,12 @@
 import React, { useEffect, useMemo } from "react";
-import "./Dojo.css";
 import Tact from "~/entities/unit/tact/ui";
+import IconPlay from "@mui/icons-material/PlayArrow";
 
 import {
   enterBPMButtonClicked,
   isRepeatingToggled,
-  listenButtonClicked,
   pitcherUpdated,
   compositionStarted,
-  compositionFinished,
   $bpm,
   $composition,
   $isListening,
@@ -24,6 +22,60 @@ import { $failed, $success } from "~/features/dojo/score";
 import { useParams } from "react-router-dom";
 import { pitchers } from "~/shared/pitch/shared";
 import { $frequency, $pitcher } from "~/shared/pitch";
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  MenuItem,
+  Select,
+  styled,
+  Typography,
+} from "@mui/material";
+
+const Root = styled("main")`
+  display: grid;
+  justify-items: center;
+  row-gap: 25px;
+  padding: 20px 50px 50px;
+`;
+
+const Composition = styled("section")`
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  overflow: hidden;
+  resize: horizontal;
+  width: 100%;
+`;
+
+const Controls = styled("header")`
+  display: flex;
+  align-items: center;
+  column-gap: 15px;
+`;
+
+const Score = styled(Typography)`
+  color: ${(p: { color?: string }) => p.color ?? "black"};
+  font-weight: bold;
+`;
+
+const Size = styled("div")`
+  display: grid;
+  justify-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+`;
+
+const FractionIndex = styled("span")`
+  color: lightgray;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: "Roboto", sans-serif;
+`;
+
+const Pattern = styled("div")`
+  display: grid;
+  grid-auto-rows: 1fr;
+`;
 
 function Dojo() {
   const composition = useStore($composition);
@@ -56,80 +108,78 @@ function Dojo() {
   }
 
   return (
-    <main>
-      {composition && (
-        <section className="composition">
-          <header className="composition__header">
-            <h1 className="composition__title">{composition.name}</h1>
-            <p className="composition__success">Success: {successScore}</p>
-            <p className="composition__failed">Failed: {failedScore}</p>
-            <p className="composition__frequency">
-              Expected: {expectedFrequencies.join("|")} Hz
-            </p>
-            <p className="composition__frequency">
-              Received: {currentFrequency.toFixed(2)} Hz
-            </p>
-            <button
-              style={{ backgroundColor: isListening ? "green" : "red" }}
-              onClick={() => listenButtonClicked()}
-              disabled={isListening}
-            >
-              Listening [{!isListening ? "off" : "on"}]
-            </button>
-            <button
-              disabled={!isListening}
-              onClick={() =>
-                !isPlaying ? compositionStarted() : compositionStopped()
+    <Root>
+      <Controls>
+        <Typography variant="h5">{composition.name}</Typography>
+        <Score color="green">Success: {successScore}</Score>
+        <Score color="red">Failed: {failedScore}</Score>
+        <p className="composition__frequency">
+          Expected: {expectedFrequencies.join("|")} Hz
+        </p>
+        <Typography>Received: {currentFrequency.toFixed(2)} Hz</Typography>
+        <Button
+          startIcon={<IconPlay />}
+          variant="contained"
+          color={isPlaying ? "error" : "primary"}
+          onClick={() =>
+            !isPlaying ? compositionStarted() : compositionStopped()
+          }
+        >
+          {isPlaying ? "Stop" : "Play"}
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          size="small"
+          onClick={() => enterBPMButtonClicked()}
+        >
+          Enter BPM ({bpm})
+        </Button>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={isRepeating}
+              onChange={({ target: { checked } }) =>
+                isRepeatingToggled(checked)
               }
-            >
-              {isPlaying ? "Stop" : "Play"}
-            </button>
-            <button
-              disabled={!isListening}
-              onClick={() => enterBPMButtonClicked()}
-            >
-              Enter BPM ({bpm})
-            </button>
-            <label>
-              Repeat
-              <input
-                type="checkbox"
-                checked={isRepeating}
-                onChange={({ target: { checked } }) =>
-                  isRepeatingToggled(checked)
-                }
-              />
-            </label>
-            <select
-              value={pitcher.name}
-              onChange={(e) => pitcherUpdated(e.target.value)}
-              disabled={!isListening}
-            >
-              {pitchersKeys.map((pitcher, index) => (
-                <option key={index}>{pitcher}</option>
-              ))}
-            </select>
-          </header>
-          <div className="composition__size">
+            />
+          }
+          label="Repeat"
+        />
+        <Select
+          size="small"
+          value={pitcher.name}
+          onChange={(e) => pitcherUpdated(e.target.value)}
+        >
+          {pitchersKeys.map((pitcher) => (
+            <MenuItem key={pitcher} value={pitcher}>
+              {pitcher}
+            </MenuItem>
+          ))}
+        </Select>
+      </Controls>
+      {composition && (
+        <Composition>
+          <Size>
             {new Array(composition.size).fill(1).map((_, fractionIndex) => (
-              <span key={fractionIndex} className="fraction-index">
+              <FractionIndex key={fractionIndex}>
                 {fractionIndex + 1}
-              </span>
+              </FractionIndex>
             ))}
-          </div>
-          <div className="composition__pattern">
+          </Size>
+          <Pattern>
             {composition.pattern.map(({ units }, index) => (
               <Tact
                 key={index}
-                selected={compositionState?.tact.index === index}
+                isSelected={compositionState?.tact.index === index}
                 selectedUnitIndex={compositionState?.beat.index}
                 units={units}
               />
             ))}
-          </div>
-        </section>
+          </Pattern>
+        </Composition>
       )}
-    </main>
+    </Root>
   );
 }
 
