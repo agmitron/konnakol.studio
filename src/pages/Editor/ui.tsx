@@ -1,22 +1,18 @@
-import "./Editor.css";
 import { useParams } from "react-router-dom";
 import {
-  AppBar,
   SpeedDial,
   SpeedDialAction,
   SpeedDialIcon,
-  Toolbar,
-  Typography,
+  styled,
 } from "@mui/material";
 import PlayIcon from "@mui/icons-material/PlayArrow";
 import SaveIcon from "@mui/icons-material/Save";
 import ShareIcon from "@mui/icons-material/Share";
-import MenuIcon from "@mui/icons-material/Menu";
-import Sheet from '~/features/konnakol/ui';
-import CreateUnitDialog from '~/widgets/dialog/unit/create/ui';
-import EditUnitDialog from '~/widgets/dialog/unit/edit/ui';
-import Sidebar from './Sidebar';
-import Title from './Title';
+import Sheet from "~/features/konnakol/ui";
+import CreateUnitDialog from "~/widgets/dialog/unit/create/ui";
+import EditUnitDialog from "~/widgets/dialog/unit/edit/ui";
+import Sidebar from "./Sidebar";
+import Title from "./Title";
 
 const actions = [
   { icon: <PlayIcon />, name: "Play", onClick: () => {} },
@@ -24,21 +20,35 @@ const actions = [
   { icon: <ShareIcon />, name: "Share", onClick: () => {} },
 ];
 
+const Root = styled("main")`
+  display: grid;
+  grid-template-areas:
+    "sidebar workspace"
+    "sidebar workspace";
+  grid-template-columns: auto 8fr;
+  grid-template-rows: min-content auto;
+  height: 100%;
+  column-gap: 20px;
+`;
+
+const Workspace = styled("div")`
+  grid-area: workspace;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+`;
+
 function Editor() {
   const { compositionId } = useParams();
 
   return (
-    <main className="editor">
-      <AppBar position="static" className="editor__appbar">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Editor
-          </Typography>
-        </Toolbar>
-      </AppBar>
+    <Root>
       <Sidebar />
-      <Title />
-      <Sheet />
+      <Workspace>
+        <Title />
+        <Sheet />
+      </Workspace>
       <CreateUnitDialog />
       <EditUnitDialog />
       <SpeedDial
@@ -55,7 +65,7 @@ function Editor() {
           />
         ))}
       </SpeedDial>
-    </main>
+    </Root>
   );
 }
 

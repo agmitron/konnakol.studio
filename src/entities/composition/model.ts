@@ -1,5 +1,5 @@
 import { Beat } from '~/entities/unit/shared'
-import { Indexed } from '~/utils/types.utils'
+import { Indexed } from '~/shared/utils/types.utils'
 import Tact from '../unit/tact/model'
 
 type CompositionTransition = AsyncGenerator<ICompositionState>

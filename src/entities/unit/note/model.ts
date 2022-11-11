@@ -1,7 +1,7 @@
-import { Frequency } from '~/types/fraction.types';
-import { sleep } from '~/utils/common.utils';
-import { isFrequencyCorrect } from '~/utils/frequency.utils';
-import { bpmToMilliseconds } from '~/utils/tempo.utils';
+import { Frequency } from '~/shared/types/fraction.types';
+import { sleep } from '~/shared/utils/common.utils';
+import { isFrequencyCorrect } from '~/shared/utils/frequency.utils';
+import { bpmToMilliseconds } from '~/shared/utils/tempo.utils';
 import Unit, { Renderable, SingleUnit, UnitKind, UnitType, WithFrequencies } from '~/entities/unit/shared';
 
 interface NoteConfig {

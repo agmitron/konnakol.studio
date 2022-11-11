@@ -1,7 +1,7 @@
-import { Frequency } from '~/types/fraction.types';
-import { sleep } from '~/utils/common.utils';
-import { areFrequenciesCorrect } from '~/utils/frequency.utils';
-import { bpmToMilliseconds } from '~/utils/tempo.utils';
+import { Frequency } from '~/shared/types/fraction.types';
+import { sleep } from '~/shared/utils/common.utils';
+import { areFrequenciesCorrect } from '~/shared/utils/frequency.utils';
+import { bpmToMilliseconds } from '~/shared/utils/tempo.utils';
 import Chord from '~/entities/unit/chord/model';
 import Note from '~/entities/unit/note/model';
 import Unit, { CompositeUnit, UnitKind, UnitType, Beat } from '~/entities/unit/shared';

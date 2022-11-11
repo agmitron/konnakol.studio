@@ -1,7 +1,7 @@
 import "./Roll.css";
 import Note from "~/entities/unit/note/ui";
 import Chord from "~/entities/unit/chord/ui";
-import { Selectable } from "~/utils/types.utils";
+import { Selectable } from "~/shared/utils/types.utils";
 import { isChord } from '~/entities/unit/chord/model';
 import { RollChildren } from "./model";
 

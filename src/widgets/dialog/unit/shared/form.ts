@@ -6,7 +6,7 @@ import { filter, values } from '~/shared/form/utils';
 import { anyString, numerical } from '~/shared/form/validators';
 import { $frequency, startListeningMicro, stopListeningMicro } from '~/shared/pitch';
 import { FrequencyIndex } from '~/shared/types';
-import { Frequency } from '~/types/fraction.types';
+import { Frequency } from '~/shared/types/fraction.types';
 
 type FrequencyKey = `frequency${FrequencyIndex}`
 type FlatFrequencies = Record<FrequencyKey, Frequency>

@@ -1,8 +1,7 @@
-import "./App.css";
 import { RouterProvider } from "react-router-dom";
 import router from "./router";
 import { ThemeProvider } from "@mui/material";
-import theme from './theme';
+import theme from "./theme";
 
 function App() {
   return (

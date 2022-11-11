@@ -1,6 +1,6 @@
 import { createEvent, createStore, sample, Store } from 'effector';
 import { ICompositionState } from '~/entities/composition/model';
-import { Frequency } from '~/types/fraction.types';
+import { Frequency } from '~/shared/types/fraction.types';
 
 export type TactIndex = number
 export type FractionIndex = number

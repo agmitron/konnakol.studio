@@ -2,10 +2,10 @@ import { combine, createEffect, createEvent, createStore, sample, UnitValue } fr
 import Composition, { CompositionId, ICompositionState } from '~/entities/composition/model'
 
 import { and, delay, reset } from 'patronum'
-import { NonNullableStructure } from '~/utils/types.utils'
-import { bpmToMilliseconds } from '~/utils/tempo.utils'
+import { NonNullableStructure } from '~/shared/utils/types.utils'
+import { bpmToMilliseconds } from '~/shared/utils/tempo.utils'
 import { $frequency, $pitcher, $webAudio } from '~/shared/pitch'
-import { DEFAULT_BPM } from '~/constants'
+import { DEFAULT_BPM } from '~/shared/constants'
 import { $score, ScoreSource, ScoreString, Correctness, updateScore } from '~/features/dojo/score'
 import { pitchers } from '~/shared/pitch/shared'
 import * as validation from './validation'

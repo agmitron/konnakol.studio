@@ -1,7 +1,7 @@
 import { ACF2PLUS, AMDF, Macleod, YIN } from 'pitchfinder'
 import { PitchDetector, ProbabalisticPitchDetector, ProbabilityPitch } from 'pitchfinder/lib/detectors/types'
-import { SAMPLE_RATE } from '~/constants'
-import { Frequency } from '~/types/fraction.types'
+import { SAMPLE_RATE } from '~/shared/constants'
+import { Frequency } from '~/shared/types/fraction.types'
 
 export enum PitcherName {
   ACF2PLUS = 'ACF2PLUS',

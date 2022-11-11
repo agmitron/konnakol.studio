@@ -1,4 +1,4 @@
-import { Selectable } from "~/utils/types.utils";
+import { Selectable } from "~/shared/utils/types.utils";
 
 interface INoteComponentProps extends Selectable {
   symbol: string;

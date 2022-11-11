@@ -1,6 +1,6 @@
 import { createEffect, createEvent, createStore, sample } from 'effector';
 import { interval, not } from 'patronum';
-import { Frequency } from '~/types/fraction.types';
+import { Frequency } from '~/shared/types/fraction.types';
 import { Pitcher, pitchers } from './shared';
 import { initializeWebAudioApi, IWebAudioAPI } from './web-audio';
 

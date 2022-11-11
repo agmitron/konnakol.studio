@@ -1,4 +1,4 @@
-import { Frequency } from '~/types/fraction.types';
+import { Frequency } from '~/shared/types/fraction.types';
 
 export enum UnitKind {
   Composite = 'composite',
