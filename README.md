@@ -23,7 +23,8 @@ Other features will be implemented soon, check the [roadmap section](#roadmap).
 - [x] - Simple fractions checking with specified BPM
 - [x] - Score system
 - [ ] - Bind your instrument's frequencies to composition frequencies (in case if you play on different scale)
-- [ ] - Redesign
+- [x] - Update design with Material UI
+- [ ] - Move actions from top to SpeedDialAction
 
 #### Editor
 
@@ -42,8 +43,8 @@ Other features will be implemented soon, check the [roadmap section](#roadmap).
 
 #### Refactor
 
-- [ ] Styled Components
-- [ ] Feature Sliced Design
+- [x] Styled Components
+- [x] Feature Sliced Design
 
 #### User
 
