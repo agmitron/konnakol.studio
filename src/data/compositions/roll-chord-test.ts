@@ -1,8 +1,8 @@
 import Composition from '~/entities/composition/model'
-import Tact from '~/entities/composition/model/Tact'
-import Chord from '~/entities/unit/model/Chord'
-import Note from '~/entities/unit/model/Note'
-import Roll from '~/entities/unit/model/Roll'
+import Tact from '~/entities/unit/tact/model'
+import Chord from '~/entities/unit/chord/model'
+import Note from '~/entities/unit/note/model'
+import Roll from '~/entities/unit/roll/model'
 import { DKurd } from '../instruments'
 
 const pattern = [

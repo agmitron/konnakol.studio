@@ -1,20 +1,27 @@
 import EditIcon from "@mui/icons-material/Edit";
 import DoneIcon from "@mui/icons-material/Done";
-import { Typography, TextField, IconButton } from "@mui/material";
+import { Typography, TextField, IconButton, styled } from "@mui/material";
 import { useStore } from "effector-react";
 import {
   compositionNameChanged,
   editCompositionNameButtonClicked,
   saveCompositionNameButtonClicked,
-} from "~/pages/editor/konnakol/ui";
-import { $compositionName, $isCompositionNameEditing } from './konnakol/model';
+  $compositionName,
+  $isCompositionNameEditing,
+} from "./model";
+
+const TitleHeader = styled("header")`
+  display: flex;
+  column-gap: 15px;
+  max-height: min-content;
+`;
 
 const Title = () => {
   const isCompositionNameEditing = useStore($isCompositionNameEditing);
   const compositionName = useStore($compositionName);
 
   return (
-    <header className="editor__title">
+    <TitleHeader>
       {!isCompositionNameEditing ? (
         <Typography variant="h4">{compositionName}</Typography>
       ) : (
@@ -39,7 +46,7 @@ const Title = () => {
           <DoneIcon />
         </IconButton>
       )}
-    </header>
+    </TitleHeader>
   );
 };
 
