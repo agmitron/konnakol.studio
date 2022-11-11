@@ -1,4 +1,4 @@
-import { Beat } from '~/entities/unit/model'
+import { Beat } from '~/entities/unit/shared'
 import { Indexed } from '~/utils/types.utils'
 import Tact from './Tact'
 

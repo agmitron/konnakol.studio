@@ -9,7 +9,7 @@ import { $score, Correctness, ScoreSource, ScoreString, updateScore } from './sc
 import { NonNullableStructure } from '~/utils/types.utils';
 import Tact from '~/entities/composition/model/Tact';
 import { bpmToMilliseconds } from '~/utils/tempo.utils';
-import { SingleUnit } from '~/entities/unit/model/Unit';
+import { SingleUnit } from '~/entities/unit/shared';
 import { loadComposition } from '../api/compositions';
 import { pitchers } from '~/shared/pitch/shared';
 

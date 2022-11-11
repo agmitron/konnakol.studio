@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from "react";
 import "./Dojo.css";
-import Tact from "~/components/Tact";
+import Tact from "~/entities/composition/tact/ui";
 
 import {
   enterBPMButtonClicked,

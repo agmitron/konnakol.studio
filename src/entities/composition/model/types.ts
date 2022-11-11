@@ -1,5 +1,5 @@
 import z from 'zod'
-import { UnitKind } from '~/entities/unit/model'
+import { UnitKind } from '~/entities/unit/shared'
 
 export const UnitSchema = z.object({
   kind: z.nativeEnum(UnitKind),

@@ -43,6 +43,7 @@ Other features will be implemented soon, check the [roadmap section](#roadmap).
 #### Refactor
 
 - [ ] Styled Components
+- [ ] Feature Sliced Design
 
 #### User
 

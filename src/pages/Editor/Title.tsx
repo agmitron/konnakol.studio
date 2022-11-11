@@ -6,8 +6,9 @@ import {
   compositionNameChanged,
   editCompositionNameButtonClicked,
   saveCompositionNameButtonClicked,
-} from "~/pages/editor/konnakol/ui";
-import { $compositionName, $isCompositionNameEditing } from './konnakol/model';
+  $compositionName,
+  $isCompositionNameEditing,
+} from "./model";
 
 const Title = () => {
   const isCompositionNameEditing = useStore($isCompositionNameEditing);
