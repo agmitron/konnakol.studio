@@ -1,6 +1,10 @@
-import React, { useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
+import { useStore } from "effector-react";
+import { useParams } from "react-router-dom";
+import PlayIcon from "@mui/icons-material/PlayArrow";
+import TimerIcon from "@mui/icons-material/Timer";
+import ShareIcon from "@mui/icons-material/Share";
 import Tact from "~/entities/unit/tact/ui";
-import IconPlay from "@mui/icons-material/PlayArrow";
 
 import {
   enterBPMButtonClicked,
@@ -9,7 +13,6 @@ import {
   compositionStarted,
   $bpm,
   $composition,
-  $isListening,
   $isPlaying,
   $isRepeating,
   compositionRequested,
@@ -17,9 +20,7 @@ import {
   compositionStopped,
 } from "~/features/dojo/model";
 
-import { useStore } from "effector-react";
 import { $failed, $success } from "~/features/dojo/score";
-import { useParams } from "react-router-dom";
 import { pitchers } from "~/shared/pitch/shared";
 import { $frequency, $pitcher } from "~/shared/pitch";
 import {
@@ -28,9 +29,18 @@ import {
   FormControlLabel,
   MenuItem,
   Select,
+  SpeedDial,
+  SpeedDialAction,
+  SpeedDialIcon,
   styled,
   Typography,
 } from "@mui/material";
+
+const actions = [
+  { icon: <PlayIcon />, name: "Play", onClick: () => {} },
+  { icon: <TimerIcon />, name: "BPM", onClick: () => {} },
+  { icon: <ShareIcon />, name: "Share", onClick: () => {} },
+];
 
 const Root = styled("main")`
   display: grid;
@@ -83,7 +93,6 @@ function Dojo() {
   const currentFrequency = useStore($frequency);
   const bpm = useStore($bpm);
   const isPlaying = useStore($isPlaying);
-  const isListening = useStore($isListening);
   const isRepeating = useStore($isRepeating);
   const compositionState = useStore($compositionState);
   const successScore = useStore($success);
@@ -118,7 +127,7 @@ function Dojo() {
         </p>
         <Typography>Received: {currentFrequency.toFixed(2)} Hz</Typography>
         <Button
-          startIcon={<IconPlay />}
+          startIcon={<PlayIcon />}
           variant="contained"
           color={isPlaying ? "error" : "primary"}
           onClick={() =>
@@ -179,6 +188,20 @@ function Dojo() {
           </Pattern>
         </Composition>
       )}
+      <SpeedDial
+        ariaLabel="SpeedDial basic example"
+        sx={{ position: "fixed", bottom: 16, right: 16 }}
+        icon={<SpeedDialIcon />}
+      >
+        {actions.map((action) => (
+          <SpeedDialAction
+            key={action.name}
+            icon={action.icon}
+            tooltipTitle={action.name}
+            onClick={action.onClick}
+          />
+        ))}
+      </SpeedDial>
     </Root>
   );
 }

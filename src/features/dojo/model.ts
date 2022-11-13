@@ -50,7 +50,6 @@ export const $compositionState = createStore<ICompositionState | null>(null)
 
 export const $isRepeating = createStore(false)
 export const $loopIndex = createStore(0);
-export const $isListening = $webAudio.map(Boolean)
 
 export const $scoreSource = combine({
   frequency: $frequency,
