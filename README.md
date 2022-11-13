@@ -18,10 +18,41 @@ Other features will be implemented soon, check the [roadmap section](#roadmap).
 
 ## Roadmap
 
+#### Dojo
+
 - [x] - Simple fractions checking with specified BPM
 - [x] - Score system
 - [ ] - Bind your instrument's frequencies to composition frequencies (in case if you play on different scale)
-- [ ] - The library of arrangements `in progress`
-- [ ] - Editor to create your own arrangements
+- [x] - Update design with Material UI
+- [ ] - Move actions from top to SpeedDialAction
+
+#### Editor
+
+- [x] Konnakol parser
+- [ ] Store composition to the DB
+- [ ] Units toolbar widgets `in progress`
+- [ ] Musical ideas
+- [ ] Composition parts
+- [ ] Tabs UI
+
+#### Other
+
+- [x] - The library of arrangements
 - [ ] - Marketplace 
+- [ ] - Deploy (CI/CD)
+
+#### Refactor
+
+- [x] Styled Components
+- [x] Feature Sliced Design
+- [x] Replace "Unit" by "SingleUnit" in naming
+
+#### User
+
+- [ ] Signing up
+- [ ] Signing in
+- [ ] List of bought compositions
+- [ ] List of written compositions
+- [ ] Time of practice total and last week
+- [ ] Study progress
 

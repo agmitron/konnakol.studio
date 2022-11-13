@@ -1,5 +1,0 @@
-.unit--chord {
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  grid-auto-flow: column;
-}

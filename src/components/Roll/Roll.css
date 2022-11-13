@@ -1,9 +1,0 @@
-.unit--roll {
-  justify-content: center;
-  gap: 10px;
-}
-
-.unit--roll .unit--note {
-  width: auto;
-  font-size: 18px;
-}

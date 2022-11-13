@@ -4,6 +4,10 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.4.5",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/icons-material": "^5.10.6",
+    "@mui/material": "^5.10.8",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
@@ -13,6 +17,7 @@
     "@types/react-dom": "^18.0.0",
     "effector": "^22.3.0",
     "effector-react": "^22.1.6",
+    "lodash.clonedeep": "^4.5.0",
     "patronum": "^1.11.0",
     "pitchfinder": "^2.3.2",
     "react": "^18.2.0",
@@ -47,6 +52,7 @@
     ]
   },
   "devDependencies": {
+    "@types/lodash.clonedeep": "^4.5.7",
     "eslint-plugin-effector": "^0.8.1"
   }
 }
