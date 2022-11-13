@@ -1,8 +1,8 @@
 import { combine, createEvent, createStore, sample, UnitValue } from 'effector';
 import { instantiatePopup } from '~/widgets/tool/sounds/dialog/unit/shared/popup'
 import { flatFrequencies, instantiateUnitForm } from '~/widgets/tool/sounds/dialog/unit/shared/form'
-import { $units } from '~/entities/user/model';
-import Note from '~/entities/unit/note/model';
+import { $sounds } from '~/entities/user/model';
+import Sound from '~/entities/unit/sound/model';
 import { reset } from 'patronum';
 import { NonNullableStructure } from '~/shared/utils/types.utils';
 
@@ -13,7 +13,7 @@ export const popup = instantiatePopup()
 export const form = instantiateUnitForm()
 
 export const $index = createStore<number | null>(null)
-export const $source = combine({ index: $index, units: $units })
+export const $source = combine({ index: $index, units: $sounds })
 
 
 sample({
@@ -22,7 +22,7 @@ sample({
 })
 
 sample({
-  clock: [$index, $units],
+  clock: [$index, $sounds],
   source: $source,
   filter: (source): source is NonNullableStructure<UnitValue<typeof $source>> => source.index !== null,
   fn: ({ index, units }) => {
@@ -53,16 +53,16 @@ sample({
 
 sample({
   clock: saved,
-  source: { units: $units, form: form.$store, frequencies: form.frequencies.$store, index: $index },
+  source: { units: $sounds, form: form.$store, frequencies: form.frequencies.$store, index: $index },
   fn: ({ units, form, frequencies, index }) => units.map(
     (oldUnit, i) => index === i
-      ? new Note({
+      ? new Sound({
         frequencies: frequencies.map(([_, { value }]) => Number(value)),
         symbol: form.symbol.value
       })
       : oldUnit
   ),
-  target: $units
+  target: $sounds
 })
 
 sample({

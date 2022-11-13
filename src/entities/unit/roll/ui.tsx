@@ -1,5 +1,5 @@
 import "./Roll.css";
-import Note from "~/entities/unit/note/ui";
+import Sound from "~/entities/unit/sound/ui";
 import Chord from "~/entities/unit/chord/ui";
 import { Selectable } from "~/shared/utils/types.utils";
 import { isChord } from '~/entities/unit/chord/model';
@@ -18,7 +18,7 @@ const Roll: React.FC<IRollProps> = ({ beats }) => {
         }
 
         return (
-          <Note symbol={beat.symbol} color={beat.color} key={i} />
+          <Sound symbol={beat.symbol} color={beat.color} key={i} />
         );
       })}
     </div>

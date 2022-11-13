@@ -6,14 +6,14 @@ export const UnitSchema = z.object({
   index: z.number().gte(0)
 })
 
-export const SingleUnitSchema = UnitSchema.extend({
+export const SoundSchema = UnitSchema.extend({
   symbol: z.string(),
   color: z.string(),
   frequencies: z.array(z.number())
 })
 
 export const CompositeUnitSchema = UnitSchema.extend({
-  children: z.array(SingleUnitSchema)
+  children: z.array(SoundSchema)
 })
 
 export const TactSchema = z.object({

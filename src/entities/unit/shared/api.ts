@@ -1,4 +1,4 @@
 import { createEffect } from 'effector';
-import { SingleUnit } from '~/entities/unit/shared';
+import Sound from '../sound/model';
 
-export const createUnitFx = createEffect(async (unit: SingleUnit) => unit)
+export const createSoundFx = createEffect(async (sound: Sound) => sound)

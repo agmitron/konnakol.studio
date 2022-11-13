@@ -45,7 +45,7 @@ Other features will be implemented soon, check the [roadmap section](#roadmap).
 
 - [x] Styled Components
 - [x] Feature Sliced Design
-- [ ] Replace "Unit" by "Sound" in naming
+- [x] Replace "Unit" by "SingleUnit" in naming
 
 #### User
 

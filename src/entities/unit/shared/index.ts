@@ -6,7 +6,7 @@ export enum UnitKind {
 }
 
 export enum UnitType {
-  Note = 'note',
+  Sound = 'note',
   Chord = 'chord',
   Roll = 'roll'
 }
@@ -30,7 +30,7 @@ export interface Renderable {
 
 export interface SingleUnit extends Unit, Renderable, WithFrequencies {
   readonly kind: UnitKind.Single
-  readonly type: UnitType.Note
+  readonly type: UnitType.Sound
 }
 
 export interface CompositeUnit<Children extends Unit[]> extends Unit {

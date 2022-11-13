@@ -4,25 +4,25 @@ import { isFrequencyCorrect } from '~/shared/utils/frequency.utils';
 import { bpmToMilliseconds } from '~/shared/utils/tempo.utils';
 import Unit, { Renderable, SingleUnit, UnitKind, UnitType, WithFrequencies } from '~/entities/unit/shared';
 
-interface NoteConfig {
+interface SoundConfig {
   frequencies: Frequency[]
   symbol: string
   color?: string
   shortcut?: string
 }
 
-export const isNote = (unit: Unit): unit is Note => unit instanceof Note
+export const isSound = (unit: Unit): unit is Sound => unit instanceof Sound
 
-export default class Note implements SingleUnit, Renderable, WithFrequencies {
+export default class Sound implements SingleUnit, Renderable, WithFrequencies {
   public readonly kind: UnitKind.Single = UnitKind.Single
-  public readonly type: UnitType.Note = UnitType.Note
+  public readonly type: UnitType.Sound = UnitType.Sound
 
   public readonly frequencies: Frequency[]
   public readonly symbol: string
   public readonly color: string
   public readonly shortcut: string
 
-  constructor(config: NoteConfig) {
+  constructor(config: SoundConfig) {
     this.frequencies = config.frequencies
     this.color = config.color ?? 'black'
     this.symbol = config.symbol

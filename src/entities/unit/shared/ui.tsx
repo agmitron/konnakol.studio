@@ -1,12 +1,12 @@
 import React from "react";
-import Note from "~/entities/unit/note/ui";
+import { styled } from "@mui/material";
+import Sound from "~/entities/unit/sound/ui";
 import Chord from "~/entities/unit/chord/ui";
 import Roll from "~/entities/unit/roll/ui";
 import Unit from "~/entities/unit/shared";
-import { isNote } from "~/entities/unit/note/model";
+import { isSound } from "~/entities/unit/sound/model";
 import { isChord } from "~/entities/unit/chord/model";
 import { isRoll } from "~/entities/unit/roll/model";
-import { styled } from "@mui/material";
 
 interface IUnitProps {
   unit: Unit;
@@ -29,8 +29,8 @@ const Root = styled("div")`
 const UnitWrapper: React.FC<IUnitProps> = ({ unit, isSelected = false }) => {
   let component = <div>???</div>;
 
-  if (isNote(unit)) {
-    component = <Note symbol={unit.symbol} color={unit.color} />;
+  if (isSound(unit)) {
+    component = <Sound symbol={unit.symbol} color={unit.color} />;
   }
 
   if (isChord(unit)) {

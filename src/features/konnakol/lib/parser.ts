@@ -1,7 +1,7 @@
 import { Pattern } from '~/entities/composition/model';
 import Tact from '~/entities/unit/tact/model';
 import Chord from '~/entities/unit/chord/model';
-import Note, { isNote } from '~/entities/unit/note/model';
+import Sound, { isSound } from '~/entities/unit/sound/model';
 import Roll from '~/entities/unit/roll/model';
 import Unit from '~/entities/unit/shared';
 import { ShorcutsToUnits } from '~/entities/user/model';
@@ -9,7 +9,7 @@ import { ShorcutsToUnits } from '~/entities/user/model';
 const isChordSymbol = (symbol: string) => /^\((\S+\|?)+\)$/.test(symbol)
 const isRollSymbol = (symbol: string) => /^\[\S+,?\]$/.test(symbol)
 
-const getChordNotes = (chordSymbol: string) => chordSymbol.replaceAll(/\(|\)/g, '').split('|')
+const getChordSounds = (chordSymbol: string) => chordSymbol.replaceAll(/\(|\)/g, '').split('|')
 const getRollUnits = (rollSymbol: string) => rollSymbol.replaceAll(/\[|\]/g, '').split(',')
 
 export default function parseKonnakol(
@@ -20,34 +20,34 @@ export default function parseKonnakol(
     return [];
   }
 
-  const parseNote = (symbol: string) => {
+  const parseSound = (symbol: string) => {
     const unit = unitsShortcutsMapping[symbol];
 
-    if (unit && isNote(unit)) {
+    if (unit && isSound(unit)) {
       return unit;
     }
 
-    return new Note({ frequencies: [], symbol, color: 'grey' })
+    return new Sound({ frequencies: [], symbol, color: 'grey' })
   }
 
   const parseUnit = (symbol: string): Unit => {
     if (isChordSymbol(symbol)) {
-      const notesSymbols = getChordNotes(symbol)
-      return new Chord(notesSymbols.map(parseNote))
+      const notesSymbols = getChordSounds(symbol)
+      return new Chord(notesSymbols.map(parseSound))
     }
 
     if (isRollSymbol(symbol)) {
       const unitsSymbols = getRollUnits(symbol);
       return new Roll(unitsSymbols.map(s => {
         if (isChordSymbol(s)) {
-          return new Chord(getChordNotes(s).map(parseNote))
+          return new Chord(getChordSounds(s).map(parseSound))
         }
 
-        return parseNote(s)
+        return parseSound(s)
       }))
     }
 
-    return parseNote(symbol)
+    return parseSound(symbol)
   }
 
   return konnakol

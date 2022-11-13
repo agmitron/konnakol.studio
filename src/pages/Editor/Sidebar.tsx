@@ -1,4 +1,4 @@
-import MusicNoteIcon from "@mui/icons-material/MusicNote";
+import MusicSoundIcon from "@mui/icons-material/MusicNote";
 import { useStore } from "effector-react";
 import { IconButton, Button, ListItem, styled } from "@mui/material";
 import { Tools, $tool, widgetSelected } from "~/pages/editor/model";
@@ -45,7 +45,7 @@ const Sidebar = () => {
             color="secondary"
             onClick={() => widgetSelected(Tools.Sounds)}
           >
-            <MusicNoteIcon />
+            <MusicSoundIcon />
           </IconButton>
         </ListItem>
       </ActivityBar>

@@ -4,8 +4,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button, IconButton } from "@mui/material";
 import { useStore, useStoreMap } from "effector-react";
-import Note from "~/entities/unit/note/ui";
-import { $units } from "~/entities/user/model";
+import Sound from "~/entities/unit/sound/ui";
+import { $sounds } from "~/entities/user/model";
 import ContextMenu, {
   SoundsContextMenuGroups,
 } from "~/widgets/context-menu/ui";
@@ -46,7 +46,7 @@ const groups: SoundsContextMenuGroups = [
 ];
 
 const Sounds = () => {
-  const units = useStore($units);
+  const units = useStore($sounds);
   const anchorElement = useStore($contextMenuAnchorElement);
   const isContextMenuOpen = useStoreMap($contextMenuAnchorElement, Boolean);
 
@@ -58,7 +58,7 @@ const Sounds = () => {
             variant="outlined"
             onClick={(e) => contextMenuOpened([e.currentTarget, i])}
           >
-            <Note symbol={symbol} />
+            <Sound symbol={symbol} />
           </Button>
         </div>
       ))}

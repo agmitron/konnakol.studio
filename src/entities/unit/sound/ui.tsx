@@ -1,12 +1,12 @@
 import { Selectable } from "~/shared/utils/types.utils";
 
-interface INote extends Selectable {
+interface ISound extends Selectable {
   symbol: string;
   color?: string;
 }
 
-function Note({ color = "black", symbol }: INote) {
+function Sound({ color = "black", symbol }: ISound) {
   return <span style={{ color }}>{symbol}</span>;
 }
 
-export default Note;
+export default Sound;

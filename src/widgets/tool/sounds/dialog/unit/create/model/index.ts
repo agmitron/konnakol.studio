@@ -1,8 +1,8 @@
 import { createEvent, sample } from 'effector';
 import { instantiatePopup } from "~/widgets/tool/sounds/dialog/unit/shared/popup";
 import { instantiateUnitForm } from "~/widgets/tool/sounds/dialog/unit/shared/form";
-import { $units } from '~/entities/user/model';
-import Note from '~/entities/unit/note/model';
+import { $sounds, soundCreated } from '~/entities/user/model';
+import Sound from '~/entities/unit/sound/model';
 import { reset } from 'patronum';
 
 export const created = createEvent()
@@ -12,15 +12,13 @@ export const form = instantiateUnitForm();
 
 sample({
   clock: created,
-  source: { units: $units, form: form.$store, frequencies: form.frequencies.$store },
-  fn: ({ units, form, frequencies }) => ([
-    ...units,
-    new Note({
+  source: { form: form.$store, frequencies: form.frequencies.$store },
+  fn: ({ form, frequencies }) =>
+    new Sound({
       symbol: form.symbol.value,
       frequencies: frequencies.map(([_, { value }]) => Number(value)),
-    })
-  ]),
-  target: $units
+    }),
+  target: soundCreated
 })
 
 sample({

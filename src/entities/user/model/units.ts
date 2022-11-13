@@ -1,30 +1,37 @@
 import { createEvent, createStore, sample } from 'effector'
+import Sound from '~/entities/unit/sound/model';
 import { SingleUnit } from '~/entities/unit/shared'
-import { createUnitFx } from '~/entities/unit/shared/api';
+import { createSoundFx } from '~/entities/unit/shared/api';
 
 export interface ShorcutsToUnits {
   [shortcut: string]: SingleUnit
 }
 
-export const $units = createStore<SingleUnit[]>([])
+export const $sounds = createStore<Sound[]>([])
 
-export const $unitsAsMapping = $units.map(
+export const $soundsAsMapping = $sounds.map(
   units => units.reduce<ShorcutsToUnits>((acc, u) => ({ ...acc, [u.shortcut]: u }), {})
-);
+)
 
 export const soundDeleted = createEvent<number>()
+export const soundCreated = createEvent<Sound>()
 
 sample({
-  clock: createUnitFx.doneData,
-  source: $units,
+  clock: soundCreated,
+  target: createSoundFx
+})
+
+sample({
+  clock: createSoundFx.doneData,
+  source: $sounds,
   fn: (units, newUnit) => [...units, newUnit],
-  target: $units
+  target: $sounds
 })
 
 sample({
   clock: soundDeleted,
-  source: $units,
+  source: $sounds,
   fn: (units, index) => units.filter((_, i) => i !== index),
-  target: $units
+  target: $sounds
 })
 
