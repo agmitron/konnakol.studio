@@ -1,9 +1,12 @@
-import { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useStore } from "effector-react";
 import { useParams } from "react-router-dom";
 import PlayIcon from "@mui/icons-material/PlayArrow";
+import PlayIconOutlined from "@mui/icons-material/PlayArrowOutlined";
 import TimerIcon from "@mui/icons-material/Timer";
 import ShareIcon from "@mui/icons-material/Share";
+import LoopIcon from "@mui/icons-material/Loop";
+import LoopIconOutlined from "@mui/icons-material/LoopOutlined";
 import Tact from "~/entities/unit/tact/ui";
 
 import {
@@ -18,6 +21,7 @@ import {
   compositionRequested,
   $compositionState,
   compositionStopped,
+  playButtonClicked,
 } from "~/features/dojo/model";
 
 import { $failed, $success } from "~/features/dojo/score";
@@ -27,6 +31,7 @@ import {
   Button,
   Checkbox,
   FormControlLabel,
+  Grid,
   MenuItem,
   Select,
   SpeedDial,
@@ -35,18 +40,28 @@ import {
   styled,
   Typography,
 } from "@mui/material";
+import Header from "~/widgets/header/ui";
 
 const actions = [
-  { icon: <PlayIcon />, name: "Play", onClick: () => {} },
+  {
+    icon: <PlayIcon />,
+    name: "Play",
+    onClick: playButtonClicked,
+    color: "primary",
+  },
   { icon: <TimerIcon />, name: "BPM", onClick: () => {} },
   { icon: <ShareIcon />, name: "Share", onClick: () => {} },
+  {
+    icon: <LoopIcon />,
+    name: "Loop",
+    onClick: enterBPMButtonClicked,
+  },
 ];
 
 const Root = styled("main")`
   display: grid;
   justify-items: center;
   row-gap: 25px;
-  padding: 20px 50px 50px;
 `;
 
 const Composition = styled("section")`
@@ -118,24 +133,30 @@ function Dojo() {
 
   return (
     <Root>
+      <Header title="Dojo">
+        <Grid container spacing={2} alignItems="center">
+          <Grid item>
+            <Typography variant="body1" color="white">
+              {composition.name}
+            </Typography>
+          </Grid>
+
+          <Grid item>
+            <Typography variant="body2">Success: {successScore}</Typography>
+            <Typography variant="body2">Failed: {failedScore}</Typography>
+          </Grid>
+
+          <Grid item>
+            <Typography variant="body2">
+              Expected: {expectedFrequencies.join("|")} Hz
+            </Typography>
+            <Typography variant="body2">
+              Received: {currentFrequency.toFixed(2)} Hz
+            </Typography>
+          </Grid>
+        </Grid>
+      </Header>
       <Controls>
-        <Typography variant="h5">{composition.name}</Typography>
-        <Score color="green">Success: {successScore}</Score>
-        <Score color="red">Failed: {failedScore}</Score>
-        <p className="composition__frequency">
-          Expected: {expectedFrequencies.join("|")} Hz
-        </p>
-        <Typography>Received: {currentFrequency.toFixed(2)} Hz</Typography>
-        <Button
-          startIcon={<PlayIcon />}
-          variant="contained"
-          color={isPlaying ? "error" : "primary"}
-          onClick={() =>
-            !isPlaying ? compositionStarted() : compositionStopped()
-          }
-        >
-          {isPlaying ? "Stop" : "Play"}
-        </Button>
         <Button
           variant="contained"
           color="secondary"
@@ -199,6 +220,7 @@ function Dojo() {
             icon={action.icon}
             tooltipTitle={action.name}
             onClick={action.onClick}
+            color="green"
           />
         ))}
       </SpeedDial>

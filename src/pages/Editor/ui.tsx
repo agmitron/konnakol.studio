@@ -13,6 +13,7 @@ import CreateUnitDialog from "~/widgets/tool/sounds/dialog/unit/create/ui";
 import EditUnitDialog from "~/widgets/tool/sounds/dialog/unit/edit/ui";
 import Sidebar from "./Sidebar";
 import Title from "./Title";
+import Header from "~/widgets/header/ui";
 
 const actions = [
   { icon: <PlayIcon />, name: "Play", onClick: () => {} },
@@ -44,6 +45,7 @@ function Editor() {
 
   return (
     <Root>
+      <Header title="Editor" />
       <Sidebar />
       <Workspace>
         <Title />

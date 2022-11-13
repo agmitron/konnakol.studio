@@ -1,7 +1,7 @@
 import { combine, createEffect, createEvent, createStore, sample, UnitValue } from 'effector'
 import Composition, { CompositionId, ICompositionState } from '~/entities/composition/model'
 
-import { and, delay, reset } from 'patronum'
+import { and, delay, not, reset } from 'patronum'
 import { NonNullableStructure } from '~/shared/utils/types.utils'
 import { bpmToMilliseconds } from '~/shared/utils/tempo.utils'
 import { $frequency, $pitcher, $webAudio } from '~/shared/pitch'
@@ -64,6 +64,7 @@ export const compositionFinished = delay({
   timeout: $bpm.map(bpmToMilliseconds)
 })
 
+export const playButtonClicked = createEvent()
 export const compositionRequested = createEvent<CompositionId>()
 export const loopIncremented = createEvent()
 export const compositionSubscribed = createEvent()
@@ -75,6 +76,18 @@ export const listenButtonClicked = createEvent()
 export const enterBPMButtonClicked = createEvent()
 export const pitcherUpdated = createEvent<string>()
 export const isRepeatingToggled = createEvent<boolean>()
+
+sample({
+  clock: playButtonClicked,
+  filter: $isPlaying,
+  target: compositionStopped
+})
+
+sample({
+  clock: playButtonClicked,
+  filter: not($isPlaying),
+  target: compositionStarted
+})
 
 sample({
   clock: compositionRequested,
