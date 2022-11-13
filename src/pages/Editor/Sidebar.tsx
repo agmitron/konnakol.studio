@@ -2,6 +2,7 @@ import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import { useStore } from "effector-react";
 import { IconButton, Button, ListItem, styled } from "@mui/material";
 import { Tools, $tool, widgetSelected } from "~/pages/editor/model";
+import Sounds from "~/widgets/tool/sounds/ui";
 
 interface AsideProps {
   isOpen: boolean;
@@ -25,8 +26,15 @@ const ToolPanel = styled("div")`
   background-color: rgb(249, 248, 248);
 `;
 
+const toolsComponentsMapping: Record<Tools, () => JSX.Element> = {
+  [Tools.Sounds]: Sounds,
+  [Tools.CompositionParts]: () => <></>,
+  [Tools.Ideas]: () => <></>,
+};
+
 const Sidebar = () => {
   const tool = useStore($tool);
+  const ToolComponent = tool ? toolsComponentsMapping[tool] : () => <></>;
 
   return (
     <Aside isOpen={tool !== null}>
@@ -35,13 +43,17 @@ const Sidebar = () => {
           <IconButton
             size="medium"
             color="secondary"
-            onClick={() => widgetSelected(Tools.Symbols)}
+            onClick={() => widgetSelected(Tools.Sounds)}
           >
             <MusicNoteIcon />
           </IconButton>
         </ListItem>
       </ActivityBar>
-      {tool && <ToolPanel></ToolPanel>}
+      {tool && (
+        <ToolPanel>
+          <ToolComponent />
+        </ToolPanel>
+      )}
     </Aside>
   );
 };

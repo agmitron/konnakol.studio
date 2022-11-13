@@ -1,6 +1,6 @@
 import { createEvent, sample } from 'effector';
-import { instantiatePopup } from "~/widgets/dialog/unit/shared/popup";
-import { instantiateUnitForm } from "~/widgets/dialog/unit/shared/form";
+import { instantiatePopup } from "~/widgets/tool/sounds/dialog/unit/shared/popup";
+import { instantiateUnitForm } from "~/widgets/tool/sounds/dialog/unit/shared/form";
 import { $units } from '~/entities/user/model';
 import Note from '~/entities/unit/note/model';
 import { reset } from 'patronum';

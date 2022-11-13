@@ -9,8 +9,8 @@ import PlayIcon from "@mui/icons-material/PlayArrow";
 import SaveIcon from "@mui/icons-material/Save";
 import ShareIcon from "@mui/icons-material/Share";
 import Sheet from "~/features/konnakol/ui";
-import CreateUnitDialog from "~/widgets/dialog/unit/create/ui";
-import EditUnitDialog from "~/widgets/dialog/unit/edit/ui";
+import CreateUnitDialog from "~/widgets/tool/sounds/dialog/unit/create/ui";
+import EditUnitDialog from "~/widgets/tool/sounds/dialog/unit/edit/ui";
 import Sidebar from "./Sidebar";
 import Title from "./Title";
 

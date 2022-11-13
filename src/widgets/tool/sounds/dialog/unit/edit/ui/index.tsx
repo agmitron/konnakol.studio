@@ -9,22 +9,23 @@ import {
   Button,
 } from "@mui/material";
 import { useStore, useStoreMap } from "effector-react";
-import FrequenciesGrid from "~/widgets/dialog/unit/shared/FrequenciesGrid";
-import { created, form, popup } from "../model";
+import FrequenciesGrid from "~/widgets/tool/sounds/dialog/unit/shared/FrequenciesGrid";
 
-function CreateUnitDialog() {
+import { form, popup, saved } from "../model";
+
+function EditUnitDialog() {
+  const isOpen = useStore(popup.$isOpen);
+  const pitching = useStore(form.frequencies.$listening);
   const frequencies = useStore(form.frequencies.$store);
   const symbol = useStoreMap(form.$store, (f) => f.symbol);
-  const pitching = useStore(form.frequencies.$listening);
-  const isOpen = useStore(popup.$isOpen);
 
   return (
     <>
       {
         <Dialog open={isOpen} onClose={() => popup.close()} fullWidth>
-          <DialogTitle>Edit Unit</DialogTitle>
+          <DialogTitle>Edit a sound</DialogTitle>
           <DialogContent>
-            <DialogContentText>Edit an existing unit.</DialogContentText>
+            <DialogContentText>Edit an existed sound.</DialogContentText>
             <TextField
               fullWidth
               margin="dense"
@@ -48,7 +49,7 @@ function CreateUnitDialog() {
           </DialogContent>
           <DialogActions>
             <Button onClick={() => popup.close()}>Cancel</Button>
-            <Button onClick={() => created()}>Save</Button>
+            <Button onClick={() => saved()}>Save</Button>
           </DialogActions>
         </Dialog>
       }
@@ -56,4 +57,4 @@ function CreateUnitDialog() {
   );
 }
 
-export default CreateUnitDialog;
+export default EditUnitDialog;

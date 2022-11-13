@@ -1,12 +1,12 @@
 import { createEvent, createStore, sample } from 'effector';
 
 export enum Tools {
-  Symbols = 'Symbols',
+  Sounds = 'Sounds',
   CompositionParts = 'Composition Parts',
   Ideas = 'Ideas'
 }
 
-export const $tool = createStore<Tools | null>(Tools.Symbols);
+export const $tool = createStore<Tools | null>(Tools.Sounds);
 export const $isCompositionNameEditing = createStore(false);
 export const $compositionName = createStore('');
 

@@ -9,23 +9,27 @@ import {
   Button,
 } from "@mui/material";
 import { useStore, useStoreMap } from "effector-react";
-import FrequenciesGrid from "~/widgets/dialog/unit/shared/FrequenciesGrid";
+import FrequenciesGrid from "~/widgets/tool/sounds/dialog/unit/shared/FrequenciesGrid";
+import { created, form, popup } from "../model";
 
-import { form, popup, saved } from "../model";
-
-function EditUnitDialog() {
-  const isOpen = useStore(popup.$isOpen);
-  const pitching = useStore(form.frequencies.$listening);
+function CreateUnitDialog() {
   const frequencies = useStore(form.frequencies.$store);
   const symbol = useStoreMap(form.$store, (f) => f.symbol);
+  const pitching = useStore(form.frequencies.$listening);
+  const isOpen = useStore(popup.$isOpen);
 
   return (
     <>
       {
-        <Dialog open={isOpen} onClose={() => close()} fullWidth>
-          <DialogTitle>Edit Unit</DialogTitle>
+        <Dialog open={isOpen} onClose={() => popup.close()} fullWidth>
+          <DialogTitle>Add a sound</DialogTitle>
           <DialogContent>
-            <DialogContentText>Edit an existing unit.</DialogContentText>
+            <DialogContentText>
+              Music consists of simple combined sounds. Here you create sounds
+              and associate them with symbols, to make it simpler to write down
+              your composition. You can use any symbol except "." (dot) and " "
+              (space).
+            </DialogContentText>
             <TextField
               fullWidth
               margin="dense"
@@ -49,7 +53,7 @@ function EditUnitDialog() {
           </DialogContent>
           <DialogActions>
             <Button onClick={() => popup.close()}>Cancel</Button>
-            <Button onClick={() => saved()}>Save</Button>
+            <Button onClick={() => created()}>Save</Button>
           </DialogActions>
         </Dialog>
       }
@@ -57,4 +61,4 @@ function EditUnitDialog() {
   );
 }
 
-export default EditUnitDialog;
+export default CreateUnitDialog;
