@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import {
+  Box,
   SpeedDial,
   SpeedDialAction,
   SpeedDialIcon,
@@ -24,6 +25,7 @@ const actions = [
 const Root = styled("main")`
   display: grid;
   grid-template-areas:
+    "header header"
     "sidebar workspace"
     "sidebar workspace";
   grid-template-columns: auto 8fr;
@@ -45,7 +47,7 @@ function Editor() {
 
   return (
     <Root>
-      <Header title="Editor" />
+      <Header title="Editor" area="header" />
       <Sidebar />
       <Workspace>
         <Title />

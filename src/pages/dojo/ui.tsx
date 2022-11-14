@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { combine } from "effector";
 import { useStore } from "effector-react";
 import { useParams } from "react-router-dom";
 import PlayIcon from "@mui/icons-material/PlayArrow";
@@ -8,16 +9,17 @@ import ShareIcon from "@mui/icons-material/Share";
 import LoopIcon from "@mui/icons-material/Loop";
 import LoopIconOutlined from "@mui/icons-material/LoopOutlined";
 import Tact from "~/entities/unit/tact/ui";
+import Header from "~/widgets/header/ui";
 
 import {
   enterBPMButtonClicked,
-  isRepeatingToggled,
+  loopButtonClicked,
   pitcherUpdated,
   compositionStarted,
   $bpm,
   $composition,
   $isPlaying,
-  $isRepeating,
+  $isLooping,
   compositionRequested,
   $compositionState,
   compositionStopped,
@@ -40,28 +42,30 @@ import {
   styled,
   Typography,
 } from "@mui/material";
-import Header from "~/widgets/header/ui";
 
-const actions = [
-  {
-    icon: <PlayIcon />,
-    name: "Play",
-    onClick: playButtonClicked,
-    color: "primary",
-  },
-  { icon: <TimerIcon />, name: "BPM", onClick: () => {} },
-  { icon: <ShareIcon />, name: "Share", onClick: () => {} },
-  {
-    icon: <LoopIcon />,
-    name: "Loop",
-    onClick: enterBPMButtonClicked,
-  },
-];
+const $actions = combine($isPlaying, $isLooping, (isPlaying, isLooping) => {
+  return Object.values({
+    play: {
+      icon: isPlaying ? <PlayIconOutlined /> : <PlayIcon />,
+      name: "Play",
+      onClick: () => playButtonClicked(),
+      color: "primary",
+    },
+    setBPM: { icon: <TimerIcon />, name: "BPM", onClick: () => {} },
+    share: { icon: <ShareIcon />, name: "Share", onClick: () => {} },
+    loop: {
+      icon: isLooping ? <LoopIconOutlined /> : <LoopIcon />,
+      name: "Loop",
+      onClick: () => loopButtonClicked(),
+    },
+  });
+});
 
 const Root = styled("main")`
   display: grid;
   justify-items: center;
   row-gap: 25px;
+  padding: 25px;
 `;
 
 const Composition = styled("section")`
@@ -108,10 +112,11 @@ function Dojo() {
   const currentFrequency = useStore($frequency);
   const bpm = useStore($bpm);
   const isPlaying = useStore($isPlaying);
-  const isRepeating = useStore($isRepeating);
+  const isLooping = useStore($isLooping);
   const compositionState = useStore($compositionState);
   const successScore = useStore($success);
   const failedScore = useStore($failed);
+  const actions = useStore($actions);
 
   const pitchersKeys = useMemo(() => Object.keys(pitchers), []);
   const { compositionId } = useParams();
@@ -132,7 +137,7 @@ function Dojo() {
   }
 
   return (
-    <Root>
+    <>
       <Header title="Dojo">
         <Grid container spacing={2} alignItems="center">
           <Grid item>
@@ -154,77 +159,65 @@ function Dojo() {
               Received: {currentFrequency.toFixed(2)} Hz
             </Typography>
           </Grid>
+
+          {/* <Grid item>
+            <Controls>
+              <Select
+                size="small"
+                value={pitcher.name}
+                onChange={(e) => pitcherUpdated(e.target.value)}
+              >
+                {pitchersKeys.map((pitcher) => (
+                  <MenuItem key={pitcher} value={pitcher}>
+                    <Typography variant="body1" color="white">
+                      {pitcher}
+                    </Typography>
+                  </MenuItem>
+                ))}
+              </Select>
+            </Controls>
+          </Grid> */}
         </Grid>
       </Header>
-      <Controls>
-        <Button
-          variant="contained"
-          color="secondary"
-          size="small"
-          onClick={() => enterBPMButtonClicked()}
+      <Root>
+        {composition && (
+          <Composition>
+            <Size>
+              {new Array(composition.size).fill(1).map((_, fractionIndex) => (
+                <FractionIndex key={fractionIndex}>
+                  {fractionIndex + 1}
+                </FractionIndex>
+              ))}
+            </Size>
+            <Pattern>
+              {composition.pattern.map(({ units }, index) => (
+                <Tact
+                  key={index}
+                  isSelected={compositionState?.tact.index === index}
+                  selectedUnitIndex={compositionState?.beat.index}
+                  units={units}
+                />
+              ))}
+            </Pattern>
+          </Composition>
+        )}
+        <SpeedDial
+          ariaLabel="SpeedDial basic example"
+          sx={{ position: "fixed", bottom: 16, right: 16 }}
+          icon={<SpeedDialIcon />}
         >
-          Enter BPM ({bpm})
-        </Button>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={isRepeating}
-              onChange={({ target: { checked } }) =>
-                isRepeatingToggled(checked)
-              }
+          {actions.map((action) => (
+            <SpeedDialAction
+              key={action.name}
+              icon={action.icon}
+              tooltipTitle={action.name}
+              onClick={action.onClick}
+              color="green"
             />
-          }
-          label="Repeat"
-        />
-        <Select
-          size="small"
-          value={pitcher.name}
-          onChange={(e) => pitcherUpdated(e.target.value)}
-        >
-          {pitchersKeys.map((pitcher) => (
-            <MenuItem key={pitcher} value={pitcher}>
-              {pitcher}
-            </MenuItem>
           ))}
-        </Select>
-      </Controls>
-      {composition && (
-        <Composition>
-          <Size>
-            {new Array(composition.size).fill(1).map((_, fractionIndex) => (
-              <FractionIndex key={fractionIndex}>
-                {fractionIndex + 1}
-              </FractionIndex>
-            ))}
-          </Size>
-          <Pattern>
-            {composition.pattern.map(({ units }, index) => (
-              <Tact
-                key={index}
-                isSelected={compositionState?.tact.index === index}
-                selectedUnitIndex={compositionState?.beat.index}
-                units={units}
-              />
-            ))}
-          </Pattern>
-        </Composition>
-      )}
-      <SpeedDial
-        ariaLabel="SpeedDial basic example"
-        sx={{ position: "fixed", bottom: 16, right: 16 }}
-        icon={<SpeedDialIcon />}
-      >
-        {actions.map((action) => (
-          <SpeedDialAction
-            key={action.name}
-            icon={action.icon}
-            tooltipTitle={action.name}
-            onClick={action.onClick}
-            color="green"
-          />
-        ))}
-      </SpeedDial>
-    </Root>
+        </SpeedDial>
+      </Root>
+    </>
   );
 }
 

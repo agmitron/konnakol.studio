@@ -14,7 +14,7 @@ import { loadCompositionFx } from '~/entities/composition/api'
 
 interface RepeatCompositionSource {
   composition: Composition | null
-  isRepeating: boolean
+  isLooping: boolean
   bpm: number
 }
 
@@ -48,7 +48,7 @@ export const $bpm = createStore(DEFAULT_BPM)
 export const $composition = createStore<Composition | null>(null)
 export const $compositionState = createStore<ICompositionState | null>(null)
 
-export const $isRepeating = createStore(false)
+export const $isLooping = createStore(false)
 export const $loopIndex = createStore(0);
 
 export const $scoreSource = combine({
@@ -75,7 +75,7 @@ export const compositionStopped = createEvent()
 export const listenButtonClicked = createEvent()
 export const enterBPMButtonClicked = createEvent()
 export const pitcherUpdated = createEvent<string>()
-export const isRepeatingToggled = createEvent<boolean>()
+export const loopButtonClicked = createEvent()
 
 sample({
   clock: playButtonClicked,
@@ -105,8 +105,9 @@ reset({
 })
 
 sample({
-  clock: isRepeatingToggled,
-  target: $isRepeating
+  clock: loopButtonClicked,
+  source: not($isLooping),
+  target: $isLooping
 })
 
 sample({
@@ -151,9 +152,9 @@ sample({
 
 sample({
   clock: playCompositionFx.done,
-  source: { isRepeating: $isRepeating, composition: $composition, bpm: $bpm },
+  source: { isLooping: $isLooping, composition: $composition, bpm: $bpm },
   filter: (sourceData: RepeatCompositionSource): sourceData is RepeatCompositionParams => Boolean(
-    sourceData.isRepeating && sourceData.composition
+    sourceData.isLooping && sourceData.composition
   ),
   fn: ({ composition, bpm }: RepeatCompositionParams) => ({ composition, bpm }),
   target: [playCompositionFx, loopIncremented]
