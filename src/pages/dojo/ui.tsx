@@ -1,28 +1,24 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { combine } from "effector";
 import { useStore } from "effector-react";
 import { useParams } from "react-router-dom";
 import PlayIcon from "@mui/icons-material/PlayArrow";
-import PlayIconOutlined from "@mui/icons-material/PlayArrowOutlined";
+import StopIcon from "@mui/icons-material/Stop";
 import TimerIcon from "@mui/icons-material/Timer";
 import ShareIcon from "@mui/icons-material/Share";
 import LoopIcon from "@mui/icons-material/Loop";
-import LoopIconOutlined from "@mui/icons-material/LoopOutlined";
+import LoopIconOutlined from "@mui/icons-material/Loop";
 import Tact from "~/entities/unit/tact/ui";
 import Header from "~/widgets/header/ui";
 
 import {
-  enterBPMButtonClicked,
   loopButtonClicked,
-  pitcherUpdated,
-  compositionStarted,
   $bpm,
   $composition,
   $isPlaying,
   $isLooping,
   compositionRequested,
   $compositionState,
-  compositionStopped,
   playButtonClicked,
 } from "~/features/dojo/model";
 
@@ -30,12 +26,8 @@ import { $failed, $success } from "~/features/dojo/score";
 import { pitchers } from "~/shared/pitch/shared";
 import { $frequency, $pitcher } from "~/shared/pitch";
 import {
-  Button,
-  Checkbox,
-  FormControlLabel,
   Grid,
-  MenuItem,
-  Select,
+  IconButton,
   SpeedDial,
   SpeedDialAction,
   SpeedDialIcon,
@@ -46,8 +38,8 @@ import {
 const $actions = combine($isPlaying, $isLooping, (isPlaying, isLooping) => {
   return Object.values({
     play: {
-      icon: isPlaying ? <PlayIconOutlined /> : <PlayIcon />,
-      name: "Play",
+      icon: isPlaying ? <StopIcon /> : <PlayIcon />,
+      name: isPlaying ? "Stop" : "Play",
       onClick: () => playButtonClicked(),
       color: "primary",
     },
@@ -75,17 +67,6 @@ const Composition = styled("section")`
   overflow: hidden;
   resize: horizontal;
   width: 100%;
-`;
-
-const Controls = styled("header")`
-  display: flex;
-  align-items: center;
-  column-gap: 15px;
-`;
-
-const Score = styled(Typography)`
-  color: ${(p: { color?: string }) => p.color ?? "black"};
-  font-weight: bold;
 `;
 
 const Size = styled("div")`
@@ -122,7 +103,7 @@ function Dojo() {
   const { compositionId } = useParams();
 
   const expectedFrequencies = useMemo(
-    () => compositionState?.beat.frequencies ?? [],
+    () => compositionState?.beat.value.frequencies ?? ["0.00"],
     [compositionState]
   );
 
@@ -212,7 +193,6 @@ function Dojo() {
               icon={action.icon}
               tooltipTitle={action.name}
               onClick={action.onClick}
-              color="green"
             />
           ))}
         </SpeedDial>
