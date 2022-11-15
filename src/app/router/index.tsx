@@ -1,17 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
 import Dojo from "~/pages/dojo/ui";
-import Editor from "~/pages/editor";
+import Editor from "~/pages/editor/ui";
 import Library from "~/pages/library";
-import Layout from "../layout/ui";
+import Layout from "../../widgets/header/ui";
 
 const router = createBrowserRouter([
   {
     path: "dojo/:compositionId",
-    element: (
-      <Layout title="Dojo">
-        <Dojo />
-      </Layout>
-    ),
+    element: <Dojo />,
   },
   {
     path: "library",
@@ -23,11 +19,7 @@ const router = createBrowserRouter([
   },
   {
     path: "editor/:compositionId",
-    element: (
-      <Layout title="Editor">
-        <Editor />
-      </Layout>
-    ),
+    element: <Editor />,
   },
 ]);
 

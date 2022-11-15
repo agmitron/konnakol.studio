@@ -1,34 +1,33 @@
 import { useEffect, useMemo } from "react";
+import { combine } from "effector";
 import { useStore } from "effector-react";
 import { useParams } from "react-router-dom";
 import PlayIcon from "@mui/icons-material/PlayArrow";
+import StopIcon from "@mui/icons-material/Stop";
 import TimerIcon from "@mui/icons-material/Timer";
 import ShareIcon from "@mui/icons-material/Share";
+import LoopIcon from "@mui/icons-material/Loop";
+import LoopIconOutlined from "@mui/icons-material/Loop";
 import Tact from "~/entities/unit/tact/ui";
+import Header from "~/widgets/header/ui";
 
 import {
-  enterBPMButtonClicked,
-  isRepeatingToggled,
-  pitcherUpdated,
-  compositionStarted,
+  loopButtonClicked,
   $bpm,
   $composition,
   $isPlaying,
-  $isRepeating,
+  $isLooping,
   compositionRequested,
   $compositionState,
-  compositionStopped,
+  playButtonClicked,
 } from "~/features/dojo/model";
 
 import { $failed, $success } from "~/features/dojo/score";
 import { pitchers } from "~/shared/pitch/shared";
 import { $frequency, $pitcher } from "~/shared/pitch";
 import {
-  Button,
-  Checkbox,
-  FormControlLabel,
-  MenuItem,
-  Select,
+  Grid,
+  IconButton,
   SpeedDial,
   SpeedDialAction,
   SpeedDialIcon,
@@ -36,17 +35,29 @@ import {
   Typography,
 } from "@mui/material";
 
-const actions = [
-  { icon: <PlayIcon />, name: "Play", onClick: () => {} },
-  { icon: <TimerIcon />, name: "BPM", onClick: () => {} },
-  { icon: <ShareIcon />, name: "Share", onClick: () => {} },
-];
+const $actions = combine($isPlaying, $isLooping, (isPlaying, isLooping) => {
+  return Object.values({
+    play: {
+      icon: isPlaying ? <StopIcon /> : <PlayIcon />,
+      name: isPlaying ? "Stop" : "Play",
+      onClick: () => playButtonClicked(),
+      color: "primary",
+    },
+    setBPM: { icon: <TimerIcon />, name: "BPM", onClick: () => {} },
+    share: { icon: <ShareIcon />, name: "Share", onClick: () => {} },
+    loop: {
+      icon: isLooping ? <LoopIconOutlined /> : <LoopIcon />,
+      name: "Loop",
+      onClick: () => loopButtonClicked(),
+    },
+  });
+});
 
 const Root = styled("main")`
   display: grid;
   justify-items: center;
   row-gap: 25px;
-  padding: 20px 50px 50px;
+  padding: 25px;
 `;
 
 const Composition = styled("section")`
@@ -56,17 +67,6 @@ const Composition = styled("section")`
   overflow: hidden;
   resize: horizontal;
   width: 100%;
-`;
-
-const Controls = styled("header")`
-  display: flex;
-  align-items: center;
-  column-gap: 15px;
-`;
-
-const Score = styled(Typography)`
-  color: ${(p: { color?: string }) => p.color ?? "black"};
-  font-weight: bold;
 `;
 
 const Size = styled("div")`
@@ -93,16 +93,17 @@ function Dojo() {
   const currentFrequency = useStore($frequency);
   const bpm = useStore($bpm);
   const isPlaying = useStore($isPlaying);
-  const isRepeating = useStore($isRepeating);
+  const isLooping = useStore($isLooping);
   const compositionState = useStore($compositionState);
   const successScore = useStore($success);
   const failedScore = useStore($failed);
+  const actions = useStore($actions);
 
   const pitchersKeys = useMemo(() => Object.keys(pitchers), []);
   const { compositionId } = useParams();
 
   const expectedFrequencies = useMemo(
-    () => compositionState?.beat.frequencies ?? [],
+    () => compositionState?.beat.value.frequencies ?? ["0.00"],
     [compositionState]
   );
 
@@ -117,92 +118,86 @@ function Dojo() {
   }
 
   return (
-    <Root>
-      <Controls>
-        <Typography variant="h5">{composition.name}</Typography>
-        <Score color="green">Success: {successScore}</Score>
-        <Score color="red">Failed: {failedScore}</Score>
-        <p className="composition__frequency">
-          Expected: {expectedFrequencies.join("|")} Hz
-        </p>
-        <Typography>Received: {currentFrequency.toFixed(2)} Hz</Typography>
-        <Button
-          startIcon={<PlayIcon />}
-          variant="contained"
-          color={isPlaying ? "error" : "primary"}
-          onClick={() =>
-            !isPlaying ? compositionStarted() : compositionStopped()
-          }
+    <>
+      <Header title="Dojo">
+        <Grid container spacing={2} alignItems="center">
+          <Grid item>
+            <Typography variant="body1" color="white">
+              {composition.name}
+            </Typography>
+          </Grid>
+
+          <Grid item>
+            <Typography variant="body2">Success: {successScore}</Typography>
+            <Typography variant="body2">Failed: {failedScore}</Typography>
+          </Grid>
+
+          <Grid item>
+            <Typography variant="body2">
+              Expected: {expectedFrequencies.join("|")} Hz
+            </Typography>
+            <Typography variant="body2">
+              Received: {currentFrequency.toFixed(2)} Hz
+            </Typography>
+          </Grid>
+
+          {/* <Grid item>
+            <Controls>
+              <Select
+                size="small"
+                value={pitcher.name}
+                onChange={(e) => pitcherUpdated(e.target.value)}
+              >
+                {pitchersKeys.map((pitcher) => (
+                  <MenuItem key={pitcher} value={pitcher}>
+                    <Typography variant="body1" color="white">
+                      {pitcher}
+                    </Typography>
+                  </MenuItem>
+                ))}
+              </Select>
+            </Controls>
+          </Grid> */}
+        </Grid>
+      </Header>
+      <Root>
+        {composition && (
+          <Composition>
+            <Size>
+              {new Array(composition.size).fill(1).map((_, fractionIndex) => (
+                <FractionIndex key={fractionIndex}>
+                  {fractionIndex + 1}
+                </FractionIndex>
+              ))}
+            </Size>
+            <Pattern>
+              {composition.pattern.map(({ units }, index) => (
+                <Tact
+                  key={index}
+                  isSelected={compositionState?.tact.index === index}
+                  selectedUnitIndex={compositionState?.beat.index}
+                  units={units}
+                />
+              ))}
+            </Pattern>
+          </Composition>
+        )}
+        <SpeedDial
+          ariaLabel="SpeedDial basic example"
+          sx={{ position: "fixed", bottom: 16, right: 16 }}
+          icon={<SpeedDialIcon />}
         >
-          {isPlaying ? "Stop" : "Play"}
-        </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          size="small"
-          onClick={() => enterBPMButtonClicked()}
-        >
-          Enter BPM ({bpm})
-        </Button>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={isRepeating}
-              onChange={({ target: { checked } }) =>
-                isRepeatingToggled(checked)
-              }
+          {actions.map((action) => (
+            <SpeedDialAction
+              key={action.name}
+              icon={action.icon}
+              tooltipTitle={action.name}
+              onClick={action.onClick}
             />
-          }
-          label="Repeat"
-        />
-        <Select
-          size="small"
-          value={pitcher.name}
-          onChange={(e) => pitcherUpdated(e.target.value)}
-        >
-          {pitchersKeys.map((pitcher) => (
-            <MenuItem key={pitcher} value={pitcher}>
-              {pitcher}
-            </MenuItem>
           ))}
-        </Select>
-      </Controls>
-      {composition && (
-        <Composition>
-          <Size>
-            {new Array(composition.size).fill(1).map((_, fractionIndex) => (
-              <FractionIndex key={fractionIndex}>
-                {fractionIndex + 1}
-              </FractionIndex>
-            ))}
-          </Size>
-          <Pattern>
-            {composition.pattern.map(({ units }, index) => (
-              <Tact
-                key={index}
-                isSelected={compositionState?.tact.index === index}
-                selectedUnitIndex={compositionState?.beat.index}
-                units={units}
-              />
-            ))}
-          </Pattern>
-        </Composition>
-      )}
-      <SpeedDial
-        ariaLabel="SpeedDial basic example"
-        sx={{ position: "fixed", bottom: 16, right: 16 }}
-        icon={<SpeedDialIcon />}
-      >
-        {actions.map((action) => (
-          <SpeedDialAction
-            key={action.name}
-            icon={action.icon}
-            tooltipTitle={action.name}
-            onClick={action.onClick}
-          />
-        ))}
-      </SpeedDial>
-    </Root>
+        </SpeedDial>
+      </Root>
+    </>
   );
 }
 

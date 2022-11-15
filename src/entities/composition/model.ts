@@ -1,4 +1,4 @@
-import { Beat } from '~/entities/unit/shared'
+import Unit, { Beat } from '~/entities/unit/shared'
 import { Indexed } from '~/shared/utils/types.utils'
 import Tact from '../unit/tact/model'
 
@@ -17,8 +17,8 @@ export interface ICompositionConfig {
 }
 
 export interface ICompositionState {
-  tact: Indexed & Tact
-  beat: Indexed & Beat
+  tact: Indexed<Tact>
+  beat: Indexed<Beat>
 }
 
 export interface IComposition extends ICompositionConfig {
@@ -86,8 +86,8 @@ export default class Composition implements IComposition {
         const beats = unit.play(bpm)
         for await (const beat of beats) {
           yield {
-            beat: { ...beat, index: unitIndex },
-            tact: { ...tact, index: tactIndex }
+            beat: new Indexed(unitIndex, beat),
+            tact: new Indexed(tactIndex, tact)
           }
         }
       }
