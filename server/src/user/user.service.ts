@@ -1,13 +1,8 @@
 import { Injectable } from '@nestjs/common';
-
-export interface User {
-  id: number;
-  name: string;
-  password: string;
-}
+import { User } from './user.entity';
 
 @Injectable()
-export class UsersService {
+export class UserService {
   private readonly users: User[] = [
     {
       id: 1,
