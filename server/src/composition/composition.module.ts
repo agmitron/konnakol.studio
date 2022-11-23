@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
 import { CompositionService } from './composition.service';
 import { CompositionController } from './composition.controller';
-import { MongooseModule } from '@nestjs/mongoose';
 import { Composition, CompositionSchema } from './composition.schema';
 
 @Module({

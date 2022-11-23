@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
+export type UserWithoutPassword = Omit<User, 'password'>;
 export type UserDocument = HydratedDocument<User>;
 
 @Schema()
