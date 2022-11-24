@@ -21,11 +21,10 @@ export class CompositionController {
   @UseGuards(JwtAuthGuard)
   @Post()
   create(
-    @Body() createCompositionDto: CreateCompositionDto,
+    @Body() body: CreateCompositionDto,
     @Request() request: AuthenticatedRequest,
   ) {
-    console.log(request.user.id);
-    return this.compositionService.create(createCompositionDto, [request.user]);
+    return this.compositionService.create(body, [request.user]);
   }
 
   @Get()

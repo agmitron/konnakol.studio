@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { UserDocument } from '~/user/user.schema';
+import { UserDocument, UserDocumentLean } from '~/user/user.schema';
 import { Composition, CompositionDocument } from './composition.schema';
 import { CreateCompositionDto, UpdateCompositionDto } from './composition.dto';
 
@@ -12,10 +12,11 @@ export class CompositionService {
     private compositionModel: Model<CompositionDocument>,
   ) { }
 
-  create({ pattern }: CreateCompositionDto, authors: UserDocument[]) {
+  create({ pattern }: CreateCompositionDto, authors: UserDocumentLean[]) {
+    console.log(pattern)
     const createdComposition = new this.compositionModel({
       pattern,
-      authors: authors.map(({ id }) => id),
+      authors: authors.map(({ _id }) => _id),
     });
 
     return createdComposition.save();

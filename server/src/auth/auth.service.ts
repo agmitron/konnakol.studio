@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User, UserDocument, UserWithoutPassword } from '~/user/user.schema';
+import { UserDocumentLean, UserWithoutPassword } from '~/user/user.schema';
 import { UserService } from '~/user/user.service';
 import { RegisterDTO } from './auth.dto';
 
@@ -11,29 +12,36 @@ export class AuthService {
     private jwtService: JwtService,
   ) { }
 
-  async validateUser(
+  async login(
     name: string,
     password: string,
   ): Promise<UserWithoutPassword | null> {
     const user = await this.userService.findByName(name);
 
-    if (user && user.password === password) {
-      const { password, ...result } = user;
-      return result;
+    if (!user) {
+      throw new NotFoundException(`User ${name} doesn't exist`);
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+
+    if (isPasswordCorrect) {
+      const { password, ...userWithoutPassword } = user;
+      return userWithoutPassword;
     }
 
     return null;
   }
 
-  async login(user: UserDocument) {
-    const payload = { name: user.name, id: user.id };
-    return {
-      token: this.jwtService.sign(payload),
-    };
+  async register(dto: RegisterDTO) {
+    const hashedPassword = await bcrypt.hash(dto.password, 12);
+
+    return this.userService.create({
+      name: dto.name,
+      password: hashedPassword,
+    });
   }
 
-  async register(dto: RegisterDTO) {
-    console.log({ dto })
-    return this.userService.create(dto);
+  async createJWT(user: UserDocumentLean) {
+    return this.jwtService.sign({ name: user.name, id: user._id });
   }
 }
