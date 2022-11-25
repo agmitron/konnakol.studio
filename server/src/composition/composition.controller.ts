@@ -24,7 +24,7 @@ export class CompositionController {
     @Body() body: CreateCompositionDto,
     @Request() request: AuthenticatedRequest,
   ) {
-    return this.compositionService.create(body, [request.user]);
+    return this.compositionService.create(body, request.user);
   }
 
   @Get()
@@ -37,16 +37,23 @@ export class CompositionController {
     return this.compositionService.findOne(id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(
+    @Request() request: AuthenticatedRequest,
     @Param('id') id: string,
     @Body() updateCompositionDto: UpdateCompositionDto,
   ) {
-    return this.compositionService.update(id, updateCompositionDto);
+    return this.compositionService.update(
+      id,
+      updateCompositionDto,
+      request.user,
+    );
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.compositionService.remove(id);
+  remove(@Param('id') id: string, @Request() request: AuthenticatedRequest) {
+    return this.compositionService.remove(id, request.user);
   }
 }

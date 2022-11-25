@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsPositive, IsString } from 'class-validator';
 
 export class CreateCompositionDto {
   @IsString()
@@ -9,6 +9,7 @@ export class CreateCompositionDto {
   pattern: string;
 
   @IsNumber()
+  @IsPositive()
   bpm: number;
 }
 

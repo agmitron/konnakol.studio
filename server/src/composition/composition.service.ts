@@ -1,8 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { UserDocument, UserDocumentLean } from '~/user/user.schema';
-import { Composition, CompositionDocument } from './composition.schema';
+import { UserDocumentLean } from '~/user/user.schema';
+import {
+  Composition,
+  CompositionDocument,
+  ContributorRole,
+} from './composition.schema';
 import { CreateCompositionDto, UpdateCompositionDto } from './composition.dto';
 
 @Injectable()
@@ -10,13 +18,12 @@ export class CompositionService {
   constructor(
     @InjectModel(Composition.name)
     private compositionModel: Model<CompositionDocument>,
-  ) { }
+  ) {}
 
-  create({ pattern }: CreateCompositionDto, authors: UserDocumentLean[]) {
-    console.log(pattern)
+  create(body: CreateCompositionDto, author: UserDocumentLean) {
     const createdComposition = new this.compositionModel({
-      pattern,
-      authors: authors.map(({ _id }) => _id),
+      ...body,
+      contributors: [{ user: author._id, role: ContributorRole.Admin }],
     });
 
     return createdComposition.save();
@@ -30,11 +37,35 @@ export class CompositionService {
     return this.compositionModel.findById(id).exec();
   }
 
-  update(id: string, updateCompositionDto: UpdateCompositionDto) {
-    return this.compositionModel.findByIdAndUpdate(id, updateCompositionDto);
+  update(id: string, body: UpdateCompositionDto, editor: UserDocumentLean) {
+    return this.compositionModel.findByIdAndUpdate(id, {
+      ...body,
+      $addToSet: {
+        contributors: [editor._id],
+      },
+    });
   }
 
-  remove(id: string) {
+  async remove(id: string, caller: UserDocumentLean) {
+    const composition = await this.compositionModel
+      .findById(id)
+      .populate('contributors.user');
+
+    if (!composition) {
+      throw new NotFoundException();
+    }
+
+    const isUserGranted = composition.contributors.some(({ role, user }) => {
+      return (
+        role === ContributorRole.Admin &&
+        user._id.toString() === caller._id.toString()
+      );
+    });
+
+    if (!isUserGranted) {
+      throw new ForbiddenException('You must be an admin of this composition.');
+    }
+
     return this.compositionModel.findByIdAndRemove(id).exec();
   }
 }
