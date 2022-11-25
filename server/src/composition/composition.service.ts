@@ -1,8 +1,4 @@
-import {
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UserDocumentLean } from '~/user/user.schema';
@@ -11,7 +7,11 @@ import {
   CompositionDocument,
   ContributorRole,
 } from './composition.schema';
-import { CreateCompositionDto, UpdateCompositionDto } from './composition.dto';
+import {
+  CreateCompositionDto,
+  UpdateCompositionContributorsDto,
+  UpdateCompositionDto,
+} from './composition.dto';
 
 @Injectable()
 export class CompositionService {
@@ -37,35 +37,35 @@ export class CompositionService {
     return this.compositionModel.findById(id).exec();
   }
 
-  update(id: string, body: UpdateCompositionDto, editor: UserDocumentLean) {
-    return this.compositionModel.findByIdAndUpdate(id, {
-      ...body,
-      $addToSet: {
-        contributors: [editor._id],
-      },
-    });
+  update(id: string, body: UpdateCompositionDto) {
+    return this.compositionModel.findByIdAndUpdate(id, body).lean().exec();
   }
 
-  async remove(id: string, caller: UserDocumentLean) {
-    const composition = await this.compositionModel
-      .findById(id)
-      .populate('contributors.user');
-
-    if (!composition) {
-      throw new NotFoundException();
-    }
-
-    const isUserGranted = composition.contributors.some(({ role, user }) => {
-      return (
-        role === ContributorRole.Admin &&
-        user._id.toString() === caller._id.toString()
+  async updateContributors(
+    compositionId: string,
+    body: UpdateCompositionContributorsDto,
+  ) {
+    if (!body.contributors.some((c) => c.role === ContributorRole.Admin)) {
+      throw new BadRequestException(
+        'At least one of contributors must be an admin.',
       );
-    });
-
-    if (!isUserGranted) {
-      throw new ForbiddenException('You must be an admin of this composition.');
     }
 
+    return this.compositionModel
+      .findByIdAndUpdate(
+        compositionId,
+        {
+          $set: {
+            contributors: body.contributors,
+          },
+        },
+        { new: true },
+      )
+      .lean()
+      .exec();
+  }
+
+  remove(id: string) {
     return this.compositionModel.findByIdAndRemove(id).exec();
   }
 }

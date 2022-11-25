@@ -1,19 +1,25 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
-import { UserDocument, UserDocumentLean } from '~/user/user.schema';
+import { User, UserDocument } from '~/user/user.schema';
 
 type JSONString = string;
 
 export type CompositionDocument = mongoose.HydratedDocument<Composition>;
 
 export enum ContributorRole {
-  Admin,
-  Editor,
-  Viewer,
+  Admin = 'admin',
+  Editor = 'editor',
+  Viewer = 'viewer',
 }
 
-export interface Contributor {
-  user: UserDocument;
+export interface Contributor<
+  U extends
+    | UserDocument
+    | User
+    | mongoose.Schema.Types.ObjectId
+    | string = UserDocument,
+> {
+  user: U;
   role: ContributorRole;
 }
 
@@ -24,14 +30,22 @@ export class Composition {
 
   @Prop({
     type: [
-      {
-        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-        role: {
-          type: mongoose.Schema.Types.Number,
-          enum: ContributorRole,
-          default: ContributorRole.Viewer,
+      new mongoose.Schema(
+        {
+          user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+          },
+          role: {
+            type: mongoose.Schema.Types.String,
+            enum: ContributorRole,
+            default: ContributorRole.Viewer,
+          },
         },
-      },
+        {
+          _id: false,
+        },
+      ),
     ],
     required: true,
   })

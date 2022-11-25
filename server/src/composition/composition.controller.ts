@@ -12,11 +12,18 @@ import {
 import { AuthenticatedRequest } from '~/auth/auth.types';
 import { JwtAuthGuard } from '~/auth/jwt.guard';
 import { CompositionService } from './composition.service';
-import { CreateCompositionDto, UpdateCompositionDto } from './composition.dto';
+import {
+  CreateCompositionDto,
+  UpdateCompositionContributorsDto,
+  UpdateCompositionDto,
+} from './composition.dto';
+import { RolesGuard } from './roles.guard';
+import { ContributorRole } from './composition.schema';
+import { Roles } from './roles.decorator';
 
 @Controller('composition')
 export class CompositionController {
-  constructor(private readonly compositionService: CompositionService) { }
+  constructor(private readonly compositionService: CompositionService) {}
 
   @UseGuards(JwtAuthGuard)
   @Post()
@@ -37,23 +44,30 @@ export class CompositionController {
     return this.compositionService.findOne(id);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Roles(ContributorRole.Editor, ContributorRole.Admin)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(
-    @Request() request: AuthenticatedRequest,
     @Param('id') id: string,
     @Body() updateCompositionDto: UpdateCompositionDto,
   ) {
-    return this.compositionService.update(
-      id,
-      updateCompositionDto,
-      request.user,
-    );
+    return this.compositionService.update(id, updateCompositionDto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Roles(ContributorRole.Admin)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Patch(':id/contributors')
+  updateContributors(
+    @Param('id') id: string,
+    @Body() body: UpdateCompositionContributorsDto,
+  ) {
+    return this.compositionService.updateContributors(id, body);
+  }
+
+  @Roles(ContributorRole.Admin)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
-  remove(@Param('id') id: string, @Request() request: AuthenticatedRequest) {
-    return this.compositionService.remove(id, request.user);
+  remove(@Param('id') id: string) {
+    return this.compositionService.remove(id);
   }
 }
