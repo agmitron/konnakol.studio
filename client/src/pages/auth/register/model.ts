@@ -1,14 +1,25 @@
-import { createEvent, sample } from 'effector';
+import { AlertColor } from '@mui/material';
+import { createEffect, createEvent, createStore, sample } from 'effector';
+import { redirect } from 'react-router-dom';
 import { registerFx } from '~/entities/user/api';
 import { createForm } from '~/shared/form';
 import { filter, values } from '~/shared/form/utils';
 import { createValidator } from '~/shared/form/validators';
 import * as regexp from '~/shared/regexp'
 
+type Snackbar = { severity: AlertColor; message: string }
+
 const errorMessages = {
   email: 'Must be an email',
   password: 'Must contain minimum 8 characters, 1 letter and 1 number',
   repeat_password: 'Passwords are not the same'
+}
+
+const snackbars: Record<string, Snackbar> = {
+  registered: {
+    severity: 'success',
+    message: 'You have been successfully registered. You will be redirected to the Login Page.'
+  }
 }
 
 export const form = createForm({
@@ -18,13 +29,49 @@ export const form = createForm({
   repeat_password: createValidator(regexp.password, errorMessages.password),
 })
 
+export const $snackbar = createStore<Snackbar | null>(null)
+export const $shouldBeRedirectedToLoginPage = createStore(false)
+
 export const formSubmitted = createEvent()
+export const snackbarShown = createEvent<Snackbar>()
+export const snackbarHidden = createEvent()
 
 sample({
   clock: formSubmitted,
   source: form.$store,
   fn: form => values(filter(form, (key) => key !== 'repeat_password')),
   target: registerFx
+})
+
+sample({
+  clock: registerFx.done,
+  fn: () => snackbars.registered,
+  target: snackbarShown
+})
+
+sample({
+  clock: registerFx.failData,
+  fn: ({ message }): Snackbar => ({ severity: 'error', message: message }),
+  target: snackbarShown
+})
+
+sample({
+  clock: snackbarHidden,
+  source: $snackbar,
+  filter: snackbar => snackbar === snackbars.registered,
+  fn: () => true,
+  target: $shouldBeRedirectedToLoginPage
+})
+
+sample({
+  clock: snackbarShown,
+  target: $snackbar
+})
+
+sample({
+  clock: snackbarHidden,
+  fn: () => null,
+  target: $snackbar
 })
 
 sample({

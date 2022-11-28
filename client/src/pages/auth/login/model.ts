@@ -1,14 +1,20 @@
-import { sample } from 'effector';
+import { createEvent, sample } from 'effector';
+import { loginFx } from '~/entities/user/api';
 import { createForm } from '~/shared/form';
+import { values } from '~/shared/form/utils';
 import { createValidator } from '~/shared/form/validators';
 import * as regexp from '~/shared/regexp'
 
-const errorMessages = {
-  email: 'Must be an email',
-  password: 'Must contain minimum 8 characters, 1 letter and 1 number',
-}
-
 export const form = createForm({
-  email: createValidator(regexp.email, errorMessages.email),
-  password: createValidator(regexp.password, errorMessages.password),
+  email: createValidator(regexp.anyString, ''),
+  password: createValidator(regexp.anyString, ''),
+})
+
+export const formSubmitted = createEvent()
+
+sample({
+  clock: formSubmitted,
+  source: form.$store,
+  fn: form => values(form),
+  target: loginFx
 })

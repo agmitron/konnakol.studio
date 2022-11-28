@@ -4,7 +4,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
+import MLink from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -12,21 +12,24 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useStore, useStoreMap } from "effector-react";
-import { form } from "./model";
+import { Link } from "react-router-dom";
+import { form, formSubmitted } from "./model";
 import { hasErrors, hasEmptyFields } from "~/shared/form/utils";
 
-function Copyright(props: any) {
+function Copyright() {
   return (
     <Typography
       variant="body2"
       color="text.secondary"
       align="center"
-      {...props}
+      sx={{ mt: 8, mb: 4 }}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
+      <MLink color="inherit" component="span">
+        <Link to={{pathname: "https://konnakol.studio"}} target="_blank">
+          konnakol.studio
+        </Link>
+      </MLink>{" "}
       {new Date().getFullYear()}
       {"."}
     </Typography>
@@ -60,7 +63,15 @@ const LoginPage = () => {
           <Typography component="h1" variant="h5">
             Login in Konnakol Studio
           </Typography>
-          <Box component="form" noValidate sx={{ mt: 1 }}>
+          <Box
+            component="form"
+            noValidate
+            sx={{ mt: 1 }}
+            onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+              e.preventDefault();
+              formSubmitted();
+            }}
+          >
             <TextField
               margin="normal"
               required
@@ -85,10 +96,10 @@ const LoginPage = () => {
               helperText={password.error}
               onChange={(e) => form.update({ password: e.target.value })}
             />
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
-            />
+            /> */}
             <Button
               type="submit"
               fullWidth
@@ -99,20 +110,23 @@ const LoginPage = () => {
               Login
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
+              {/* <Grid item xs>
+                TODO
+                <MLink href="#" variant="body2">
                   Forgot password?
-                </Link>
-              </Grid>
+                </MLink>
+              </Grid> */}
               <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
+                <MLink variant="body2" component="span">
+                  <Link to="/auth/register">
+                    Don't have an account? Register
+                  </Link>
+                </MLink>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
+        <Copyright />
       </Container>
     </ThemeProvider>
   );
