@@ -13,16 +13,16 @@ export class UserService {
     return this.userModel.findById(id).lean().exec();
   }
 
-  async findByName(name: string) {
-    return this.userModel.findOne({ name }).lean().exec();
+  async findByEmail(email: string) {
+    return this.userModel.findOne({ email }).lean().exec();
   }
 
   async create(user: User) {
-    const isUserExist = await this.userModel.exists({ name: user.name });
+    const isUserExist = await this.userModel.exists({ email: user.email });
 
     if (isUserExist) {
       throw new ConflictException(
-        `User with name ${user.name} already exists.`,
+        `User with email ${user.email} already exists.`,
       );
     }
 
