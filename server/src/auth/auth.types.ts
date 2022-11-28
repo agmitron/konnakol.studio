@@ -1,8 +1,8 @@
 import { Request } from 'express';
-import { User } from '~/users/users.service';
+import { UserDocumentLean } from '~/user/user.schema';
 
 export interface AuthenticatedRequest extends Request {
-  user: User;
+  user: UserDocumentLean;
 }
 
 export enum Role {

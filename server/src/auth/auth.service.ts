@@ -1,27 +1,47 @@
-import { Injectable } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User, UsersService } from '~/users/users.service';
+import { UserDocumentLean, UserWithoutPassword } from '~/user/user.schema';
+import { UserService } from '~/user/user.service';
+import { RegisterDTO } from './auth.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
+    private userService: UserService,
     private jwtService: JwtService,
-  ) {}
+  ) { }
 
-  async validateUser(username: string, pass: string): Promise<any> {
-    const user = await this.usersService.findOne(username);
-    if (user && user.password === pass) {
-      const { password, ...result } = user;
-      return result;
+  async login(
+    name: string,
+    password: string,
+  ): Promise<UserWithoutPassword | null> {
+    const user = await this.userService.findByName(name);
+
+    if (!user) {
+      throw new NotFoundException(`User ${name} doesn't exist`);
     }
+
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+
+    if (isPasswordCorrect) {
+      const { password, ...userWithoutPassword } = user;
+      return userWithoutPassword;
+    }
+
     return null;
   }
 
-  async login(user: User) {
-    const payload = { name: user.name, id: user.id };
-    return {
-      token: this.jwtService.sign(payload),
-    };
+  async register(dto: RegisterDTO) {
+    const hashedPassword = await bcrypt.hash(dto.password, 12);
+
+    return this.userService.create({
+      name: dto.name,
+      password: hashedPassword,
+    });
+  }
+
+  async createJWT(user: UserDocumentLean) {
+    return this.jwtService.sign({ name: user.name, id: user._id });
   }
 }
