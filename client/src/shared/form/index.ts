@@ -21,6 +21,6 @@ export function createForm<F extends Field = Field>(
 
   return {
     $store,
-    update,
+    update
   }
 }

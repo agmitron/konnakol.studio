@@ -1,7 +1,8 @@
-import { Field, Form, FormEntry, Validator, Value } from './types'
+import { Field, Form, FormEntry, Predicate, Validator, Value, Error} from './types'
 
-export const anyString = () => ''
-export const numerical = (value: Value) => /\d/g.test(value) ? '' : 'Must be a number'
+export const createValidator = (
+  predicate: Predicate, errorMessage: Error
+) => (value: Value) => predicate(value) ? '' : errorMessage
 
 export default function validate<F extends Field>(
   values: Record<F, string>,

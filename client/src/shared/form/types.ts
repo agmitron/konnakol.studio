@@ -8,6 +8,8 @@ export type FormEntry = {
 
 export type Validator = (value: Value) => Error
 
+export type Predicate = (value: Value) => boolean
+
 export type Form<F extends Field = Field> = {
   [field in F]: FormEntry
 }

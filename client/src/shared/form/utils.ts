@@ -27,3 +27,11 @@ export const values = <F extends Form>(
 ) => Object.fromEntries(
   Object.entries(form).map(([key, { value }]) => [key, value])
 ) as FormValues<F>
+
+export const hasErrors = <F extends Form>(
+  form: F
+): boolean => Object.entries(form).some(([, { error }]) => !!error)
+
+export const hasEmptyFields = <F extends Form>(
+  form: F
+): boolean => Object.entries(form).some(([, { value }]) => value === '')

@@ -3,8 +3,9 @@ import { condition, empty, not } from 'patronum';
 import { createForm } from '~/shared/form';
 import { Form } from '~/shared/form/types';
 import { filter, values } from '~/shared/form/utils';
-import { anyString, numerical } from '~/shared/form/validators';
+import { createValidator } from '~/shared/form/validators';
 import { $frequency, startListeningMicro, stopListeningMicro } from '~/shared/pitch';
+import { anyString, numerical } from '~/shared/regexp';
 import { FrequencyIndex } from '~/shared/types';
 import { Frequency } from '~/shared/types/fraction.types';
 
@@ -27,8 +28,8 @@ const reorderFrequencies = (
 
 export function instantiateUnitForm() {
   const form = createForm<UnitFormField>({
-    symbol: anyString,
-    frequency0: numerical
+    symbol: createValidator(anyString, 'Must be a string'),
+    frequency0: createValidator(numerical, 'Must be numerical')
   })
 
   const frequencies = {
