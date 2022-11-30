@@ -29,6 +29,6 @@ export class UserService {
     return this.userModel
       .create(user)
       .then((u) => u.save())
-      .then((u) => u.id);
+      .then((u) => u._id);
   }
 }

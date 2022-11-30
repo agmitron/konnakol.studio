@@ -1,9 +1,10 @@
 import * as bcrypt from 'bcrypt';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserDocumentLean, UserWithoutPassword } from '~/user/user.schema';
+import { UserWithoutPassword } from '~/user/user.schema';
 import { UserService } from '~/user/user.service';
 import { RegisterDTO } from './auth.dto';
+import { omitPassword } from '~/user/user.utils';
 
 @Injectable()
 export class AuthService {
@@ -25,8 +26,7 @@ export class AuthService {
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
     if (isPasswordCorrect) {
-      const { password, ...userWithoutPassword } = user;
-      return userWithoutPassword;
+      return omitPassword(user);
     }
 
     return null;
@@ -40,9 +40,5 @@ export class AuthService {
       name: dto.name,
       password: hashedPassword,
     });
-  }
-
-  async createJWT(user: UserDocumentLean) {
-    return this.jwtService.sign({ name: user.name, id: user._id });
   }
 }
