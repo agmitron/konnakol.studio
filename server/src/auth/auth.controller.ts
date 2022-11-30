@@ -1,13 +1,14 @@
 import {
   Body,
   Controller,
+  Get,
   Post,
   Request,
   Res,
   UseGuards,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { HOUR, MINUTE, MONTH, SECOND } from '~/constants';
+import { MINUTE, MONTH } from '~/constants';
 import { TokenService } from '~/token/token.service';
 import { Cookies } from './auth.decorators';
 import { RegisterDTO } from './auth.dto';
@@ -20,7 +21,7 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly tokenService: TokenService,
-  ) { }
+  ) {}
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
@@ -29,10 +30,8 @@ export class AuthController {
     @Res({ passthrough: true }) response: Response,
   ) {
     const { refresh, access } = this.tokenService.generate(request.user);
-    response.cookie('refresh', refresh, { httpOnly: true, maxAge: MONTH });
-    response.cookie('access', access, { httpOnly: true, maxAge: SECOND * 30 });
     await this.tokenService.store(request.user._id, refresh);
-    // return access;
+    this.setTokensToCookie(response, access, refresh);
   }
 
   @Post('register')
@@ -40,8 +39,21 @@ export class AuthController {
     return this.authService.register(registerDTO);
   }
 
-  @Post('refresh')
-  async refresh(@Cookies('refresh') token: string) {
-    return this.tokenService.refresh(token);
+  @Get('refresh')
+  async refresh(
+    @Cookies('refresh') token: string,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const { refresh, access } = await this.tokenService.refresh(token);
+    this.setTokensToCookie(response, access, refresh);
+  }
+
+  private setTokensToCookie(
+    response: Response,
+    access: string,
+    refresh: string,
+  ) {
+    response.cookie('refresh', refresh, { httpOnly: true, maxAge: MONTH });
+    response.cookie('access', access, { httpOnly: true, maxAge: MINUTE });
   }
 }

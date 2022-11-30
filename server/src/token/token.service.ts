@@ -18,7 +18,7 @@ export class TokenService {
     private readonly tokenModel: Model<TokenDocument>,
     @InjectModel(User.name)
     private readonly userModel: Model<UserDocument>,
-  ) { }
+  ) {}
 
   generate(payload: string | object | Buffer) {
     return {
@@ -47,15 +47,17 @@ export class TokenService {
 
   async refresh(token: string) {
     const userData = this.validate(token);
-    const foundToken = await this.tokenModel.findOne({ refresh: token });
-    const user = await this.userModel.findById(userData._id);
+    const foundToken = await this.tokenModel
+      .findOne({ refresh: token })
+      .populate('user')
+      .lean();
 
-    if (!token || !userData || !foundToken || !user) {
+    if (!token || !userData || !foundToken) {
       throw new UnauthorizedException();
     }
 
-    const tokens = this.generate(omitPassword(user));
-    await this.store(user._id, tokens.refresh);
+    const tokens = this.generate(omitPassword(foundToken.user));
+    await this.store(foundToken.user._id, tokens.refresh);
     return tokens;
   }
 }
