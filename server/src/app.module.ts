@@ -7,7 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { CompositionModule } from './composition/composition.module';
 import { TokenModule } from './token/token.module';
-import { TokenModule } from './token/token.module';
+import { ENV } from './constants';
 
 @Module({
   imports: [
@@ -18,7 +18,7 @@ import { TokenModule } from './token/token.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        uri: configService.get('MONGO_URI'),
+        uri: configService.get(ENV.MONGO_URI),
       }),
     }),
     CompositionModule,

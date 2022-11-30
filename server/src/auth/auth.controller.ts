@@ -7,7 +7,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { MONTH } from '~/constants';
+import { HOUR, MINUTE, MONTH, SECOND } from '~/constants';
 import { TokenService } from '~/token/token.service';
 import { Cookies } from './auth.decorators';
 import { RegisterDTO } from './auth.dto';
@@ -20,7 +20,7 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly tokenService: TokenService,
-  ) {}
+  ) { }
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
@@ -30,8 +30,9 @@ export class AuthController {
   ) {
     const { refresh, access } = this.tokenService.generate(request.user);
     response.cookie('refresh', refresh, { httpOnly: true, maxAge: MONTH });
+    response.cookie('access', access, { httpOnly: true, maxAge: SECOND * 30 });
     await this.tokenService.store(request.user._id, refresh);
-    return access;
+    // return access;
   }
 
   @Post('register')

@@ -1,10 +1,10 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
-import * as uuid from 'uuid';
-import { UserDocument } from '~/user/user.schema';
+import { User, UserDocument } from '~/user/user.schema';
 import { omitPassword } from '~/user/user.utils';
-import { TokenDocument } from './token.schema';
+import { Token, TokenDocument } from './token.schema';
 
 export interface TokenPayload {
   _id: string;
@@ -14,14 +14,16 @@ export interface TokenPayload {
 export class TokenService {
   constructor(
     private readonly jwtService: JwtService,
+    @InjectModel(Token.name)
     private readonly tokenModel: Model<TokenDocument>,
-    private readonly userModel: Model<UserDocument>
+    @InjectModel(User.name)
+    private readonly userModel: Model<UserDocument>,
   ) { }
 
   generate(payload: string | object | Buffer) {
     return {
       access: this.jwtService.sign(payload),
-      refresh: this.jwtService.sign(uuid.v4()),
+      refresh: this.jwtService.sign({}),
     };
   }
 
@@ -34,7 +36,7 @@ export class TokenService {
 
     if (foundToken) {
       foundToken.refresh = refresh;
-      await foundToken.save();
+      return await foundToken.save();
     }
 
     return await this.tokenModel.create({
