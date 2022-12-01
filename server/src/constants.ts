@@ -7,4 +7,5 @@ export const MONTH = DAY * 30;
 export enum ENV {
   JWT_SECRET = 'JWT_SECRET',
   MONGO_URI = 'MONGO_URI',
+  DOMAIN = 'DOMAIN',
 }

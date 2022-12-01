@@ -18,12 +18,12 @@ export class TokenService {
     private readonly tokenModel: Model<TokenDocument>,
     @InjectModel(User.name)
     private readonly userModel: Model<UserDocument>,
-  ) {}
+  ) { }
 
   generate(payload: string | object | Buffer) {
     return {
-      access: this.jwtService.sign(payload),
-      refresh: this.jwtService.sign({}),
+      access: this.jwtService.sign(payload, { expiresIn: '30m' }),
+      refresh: this.jwtService.sign({}, { expiresIn: '30d' }),
     };
   }
 
