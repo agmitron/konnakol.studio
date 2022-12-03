@@ -26,7 +26,7 @@ function Copyright() {
     >
       {"Copyright © "}
       <MLink color="inherit" component="span">
-        <Link to={{pathname: "https://konnakol.studio"}} target="_blank">
+        <Link href={{pathname: "https://konnakol.studio"}} target="_blank">
           konnakol.studio
         </Link>
       </MLink>{" "}
@@ -118,7 +118,7 @@ const LoginPage = () => {
               </Grid> */}
               <Grid item>
                 <MLink variant="body2" component="span">
-                  <Link to="/auth/register">
+                  <Link href="/auth/register">
                     Don't have an account? Register
                   </Link>
                 </MLink>

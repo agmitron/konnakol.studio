@@ -24,7 +24,7 @@ function Copyright() {
     >
       {"Copyright © "}
       <MLink variant="body2" component="span">
-        <Link to="https://konnakol.studio">konnakol.studio</Link>
+        <Link href="https://konnakol.studio">konnakol.studio</Link>
       </MLink>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -130,7 +130,7 @@ const RegisterPage = () => {
           <Grid container>
             <Grid item>
               <MLink variant="body2" component="span">
-                <Link to="/auth/login">Already have an account? Login.</Link>
+                <Link href="/auth/login">Already have an account? Login.</Link>
               </MLink>
             </Grid>
           </Grid>

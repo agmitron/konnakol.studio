@@ -8,7 +8,7 @@ function Library() {
       <ul>
         {Object.values(compositions).map(({ id, name }) => (
           <li key={id}>
-            <Link to={`/dojo/${id}`}>{name}</Link>
+            <Link href={`/dojo/${id}`}>{name}</Link>
           </li>
         ))}
       </ul>
