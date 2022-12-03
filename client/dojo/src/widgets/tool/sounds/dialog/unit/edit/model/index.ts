@@ -4,7 +4,7 @@ import { flatFrequencies, instantiateUnitForm } from '~/widgets/tool/sounds/dial
 import { $sounds } from '~/entities/user/model';
 import Sound from '~/entities/unit/sound/model';
 import { reset } from 'patronum';
-import { NonNullableStructure } from '~/shared/utils/types.utils';
+import { NonNullableStructure } from '~/shared/utils/types';
 
 export const saved = createEvent()
 export const unitChosen = createEvent<number>()

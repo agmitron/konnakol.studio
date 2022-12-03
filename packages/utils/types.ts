@@ -9,3 +9,6 @@ export interface Selectable {
 export interface Indexed<I = number> {
   index: I
 }
+
+export type ToolbarUnitIndex = number
+export type FrequencyIndex = number

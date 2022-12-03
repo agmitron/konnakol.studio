@@ -1,5 +1,6 @@
-import { FREQUENCY_DEVIATION } from '~/shared/constants';
-import { Frequency } from '~/shared/types/fraction.types';
+import { FREQUENCY_DEVIATION } from './constants';
+
+export type Frequency = number
 
 export const isFrequencyCorrect = (expected: number, received: number) => {
   return received <= expected + FREQUENCY_DEVIATION && received >= expected - FREQUENCY_DEVIATION;

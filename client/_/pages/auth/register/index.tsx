@@ -4,15 +4,22 @@ import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import MLink from "@mui/material/Link";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import Link from "next/link";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useStore, useStoreMap } from "effector-react";
-import { $shouldBeRedirectedToLoginPage, $snackbar, form, formSubmitted, snackbarHidden } from "./model";
-import { hasErrors, hasEmptyFields } from "~/shared/form/utils";
+import {
+  $shouldBeRedirectedToLoginPage,
+  $snackbar,
+  form,
+  formSubmitted,
+  snackbarHidden,
+} from "./model";
+import { hasErrors, hasEmptyFields } from "form/utils";
 import { Snackbar, Alert, Grid } from "@mui/material";
+import { useRouter } from "next/router";
 
 function Copyright() {
   return (
@@ -34,15 +41,20 @@ function Copyright() {
 
 const RegisterPage = () => {
   const { email, name, password, repeat_password } = useStore(form.$store);
-  const shouldBeRedirectedToLoginPage = useStore($shouldBeRedirectedToLoginPage)
+  const shouldBeRedirectedToLoginPage = useStore(
+    $shouldBeRedirectedToLoginPage
+  );
   const snackbar = useStore($snackbar);
   const isButtonDisabled = useStoreMap(
     form.$store,
     (form) => hasEmptyFields(form) || hasErrors(form)
   );
 
+  const router = useRouter();
+
   if (shouldBeRedirectedToLoginPage) {
-    return <Navigate to="/auth/login" />
+    router.push("auth/login");
+    return null;
   }
 
   return (

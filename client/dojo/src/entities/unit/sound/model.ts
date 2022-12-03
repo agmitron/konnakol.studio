@@ -1,7 +1,7 @@
 import { Frequency } from '~/shared/types/fraction.types';
-import { sleep } from '~/shared/utils/common.utils';
-import { isFrequencyCorrect } from '~/shared/utils/frequency.utils';
-import { bpmToMilliseconds } from '~/shared/utils/tempo.utils';
+import { sleep } from '~/shared/utils/common';
+import { isFrequencyCorrect } from '~/shared/utils/frequency';
+import { bpmToMilliseconds } from '~/shared/utils/tempo';
 import Unit, { Renderable, SingleUnit, UnitKind, UnitType, WithFrequencies } from '~/entities/unit/shared';
 
 interface SoundConfig {

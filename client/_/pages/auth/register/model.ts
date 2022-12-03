@@ -1,11 +1,10 @@
 import { AlertColor } from '@mui/material';
-import { createEffect, createEvent, createStore, sample } from 'effector';
-import { redirect } from 'react-router-dom';
-import { registerFx } from '~/entities/user/api';
-import { createForm } from '~/shared/form';
-import { filter, values } from '~/shared/form/utils';
-import { createValidator } from '~/shared/form/validators';
-import * as regexp from '~/shared/regexp'
+import { createEvent, createStore, sample } from 'effector';
+import { registerFx } from 'entities/user/api';
+import { createForm } from 'form';
+import { filter, values } from 'form/utils';
+import { createValidator } from 'form/validators';
+import * as regexp from 'utils/regexp'
 
 type Snackbar = { severity: AlertColor; message: string }
 

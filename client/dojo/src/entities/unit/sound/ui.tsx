@@ -1,4 +1,4 @@
-import { Selectable } from "~/shared/utils/types.utils";
+import { Selectable } from "~/shared/utils/types";
 
 interface ISound extends Selectable {
   symbol: string;

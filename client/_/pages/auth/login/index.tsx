@@ -12,7 +12,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useStore, useStoreMap } from "effector-react";
 import Link from "next/link";
 import { form, formSubmitted } from "./model";
-import { hasErrors, hasEmptyFields } from "~/shared/form/utils";
+import { hasErrors, hasEmptyFields } from "form/utils";
 
 function Copyright() {
   return (
@@ -117,7 +117,7 @@ const LoginPage = () => {
               <Grid item>
                 <MLink variant="body2" component="span">
                   <Link href="/auth/register">
-                    Don't have an account? Register
+                    Don&apos;t have an account? Register
                   </Link>
                 </MLink>
               </Grid>

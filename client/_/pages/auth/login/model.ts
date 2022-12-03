@@ -1,9 +1,9 @@
 import { createEvent, sample } from 'effector';
-import { loginFx } from '~/entities/user/api';
-import { createForm } from '~/shared/form';
-import { values } from '~/shared/form/utils';
-import { createValidator } from '~/shared/form/validators';
-import * as regexp from '~/shared/regexp'
+import { loginFx } from 'entities';
+import { createForm } from 'form';
+import { values } from 'form/utils';
+import { createValidator } from 'form/validators';
+import * as regexp from 'utils/regexp'
 
 export const form = createForm({
   email: createValidator(regexp.anyString, ''),

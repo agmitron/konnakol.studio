@@ -1,0 +1,303 @@
+{
+  "id": 1,
+  "name": "Kirill Osherov Excercise #1",
+  "pattern": [
+    {
+      "index": 0,
+      "units": [
+        {
+          "index": 0,
+          "kind": "note",
+          "frequencies": [
+            146.83
+          ],
+          "symbol": "D",
+          "color": "black"
+        },
+        {
+          "index": 1,
+          "kind": "note",
+          "frequencies": [],
+          "symbol": ".",
+          "color": "green"
+        },
+        {
+          "index": 2,
+          "kind": "note",
+          "frequencies": [],
+          "symbol": ".",
+          "color": "black"
+        },
+        {
+          "index": 3,
+          "kind": "note",
+          "frequencies": [
+            440
+          ],
+          "symbol": "8",
+          "color": "green"
+        },
+        {
+          "index": 4,
+          "kind": "note",
+          "frequencies": [
+            329.63
+          ],
+          "symbol": "5",
+          "color": "black"
+        },
+        {
+          "index": 5,
+          "kind": "note",
+          "frequencies": [],
+          "symbol": ".",
+          "color": "green"
+        },
+        {
+          "index": 6,
+          "kind": "note",
+          "frequencies": [],
+          "symbol": ".",
+          "color": "black"
+        },
+        {
+          "index": 7,
+          "kind": "note",
+          "frequencies": [],
+          "symbol": "B",
+          "color": "green"
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "units": [
+        {
+          "index": 0,
+          "kind": "note",
+          "frequencies": [],
+          "symbol": "*",
+          "color": "black"
+        },
+        {
+          "index": 1,
+          "kind": "note",
+          "frequencies": [
+            220
+          ],
+          "symbol": "1",
+          "color": "green"
+        },
+        {
+          "index": 2,
+          "kind": "note",
+          "frequencies": [
+            392
+          ],
+          "symbol": "7",
+          "color": "black"
+        },
+        {
+          "index": 3,
+          "kind": "note",
+          "frequencies": [],
+          "symbol": ".",
+          "color": "green"
+        },
+        {
+          "index": 4,
+          "kind": "note",
+          "frequencies": [],
+          "symbol": ".",
+          "color": "black"
+        },
+        {
+          "index": 5,
+          "children": [
+            {
+              "index": 5,
+              "kind": "note",
+              "frequencies": [
+                349.23
+              ],
+              "symbol": "6",
+              "color": "green"
+            },
+            {
+              "index": 5,
+              "kind": "note",
+              "frequencies": [
+                293.66
+              ],
+              "symbol": "4",
+              "color": "green"
+            }
+          ],
+          "frequencies": [
+            349.23,
+            293.66
+          ],
+          "kind": "chord"
+        },
+        {
+          "index": 6,
+          "kind": "note",
+          "frequencies": [],
+          "symbol": ".",
+          "color": "black"
+        },
+        {
+          "index": 7,
+          "kind": "note",
+          "frequencies": [],
+          "symbol": "B",
+          "color": "green"
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "units": [
+        {
+          "index": 0,
+          "kind": "note",
+          "frequencies": [],
+          "symbol": "*",
+          "color": "black"
+        },
+        {
+          "index": 1,
+          "kind": "note",
+          "frequencies": [],
+          "symbol": ".",
+          "color": "green"
+        },
+        {
+          "index": 2,
+          "kind": "note",
+          "frequencies": [
+            261.63
+          ],
+          "symbol": "3",
+          "color": "black"
+        },
+        {
+          "index": 3,
+          "kind": "note",
+          "frequencies": [],
+          "symbol": ".",
+          "color": "green"
+        },
+        {
+          "index": 4,
+          "kind": "note",
+          "frequencies": [],
+          "symbol": ".",
+          "color": "black"
+        },
+        {
+          "index": 5,
+          "kind": "note",
+          "frequencies": [
+            220
+          ],
+          "symbol": "1",
+          "color": "green"
+        },
+        {
+          "index": 6,
+          "kind": "note",
+          "frequencies": [
+            293.66
+          ],
+          "symbol": "4",
+          "color": "black"
+        },
+        {
+          "index": 7,
+          "kind": "note",
+          "frequencies": [],
+          "symbol": "B",
+          "color": "green"
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "units": [
+        {
+          "index": 0,
+          "kind": "note",
+          "frequencies": [],
+          "symbol": "*",
+          "color": "black"
+        },
+        {
+          "index": 1,
+          "kind": "note",
+          "frequencies": [],
+          "symbol": ".",
+          "color": "green"
+        },
+        {
+          "index": 2,
+          "kind": "note",
+          "frequencies": [
+            220
+          ],
+          "symbol": "1",
+          "color": "black"
+        },
+        {
+          "index": 3,
+          "kind": "note",
+          "frequencies": [
+            233.08
+          ],
+          "symbol": "2",
+          "color": "green"
+        },
+        {
+          "index": 4,
+          "kind": "note",
+          "frequencies": [
+            261.63
+          ],
+          "symbol": "3",
+          "color": "black"
+        },
+        {
+          "index": 5,
+          "kind": "note",
+          "frequencies": [
+            293.66
+          ],
+          "symbol": "4",
+          "color": "green"
+        },
+        {
+          "index": 6,
+          "kind": "note",
+          "frequencies": [
+            261.63
+          ],
+          "symbol": "3",
+          "color": "black"
+        },
+        {
+          "index": 7,
+          "kind": "note",
+          "frequencies": [
+            233.08
+          ],
+          "symbol": "2",
+          "color": "green"
+        }
+      ]
+    }
+  ],
+  "bpm": 160,
+  "size": 8,
+  "iterator": null,
+  "listeners": []
+}
