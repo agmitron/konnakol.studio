@@ -6,22 +6,19 @@
     "target": "es2022",
     "sourceMap": true,
     "declaration": true,
-    "outDir": "lib",
     "baseUrl": ".",
     "strict": true,
+    "outDir": "lib",
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "noEmitOnError": true,
-    "paths": {
-      "src/*": ["./src/*"]
-    },
     "downlevelIteration": true,
     "resolveJsonModule": true,
     "preserveSymlinks": true,
     "incremental": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
 }

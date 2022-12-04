@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "target": "es2022",
+    "sourceMap": true,
+    "declaration": true,
+    "baseUrl": ".",
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "noEmitOnError": true,
+    "downlevelIteration": true,
+    "resolveJsonModule": true,
+    "preserveSymlinks": true,
+    "incremental": true
+  }
+}

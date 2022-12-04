@@ -1,12 +1,21 @@
 {
   "name": "pitch",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
   "license": "MIT",
   "devDependencies": {
     "typescript": "^4.9.3"
   },
   "dependencies": {
-    "effector": "^22.4.0"
+    "effector": "^22.4.0",
+    "pitchfinder": "^2.3.2",
+    "utils": "*",
+    "zod": "^3.19.1"
+  },
+  "scripts": {
+    "build": "tsc"
   }
 }

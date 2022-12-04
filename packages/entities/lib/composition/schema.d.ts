@@ -19,16 +19,16 @@ export declare const SoundSchema: z.ZodObject<z.extendShape<{
     frequencies: z.ZodArray<z.ZodNumber, "many">;
 }>, "strip", z.ZodTypeAny, {
     symbol: string;
-    color: string;
-    kind: UnitKind;
-    index: number;
     frequencies: number[];
+    kind: UnitKind;
+    color: string;
+    index: number;
 }, {
     symbol: string;
-    color: string;
-    kind: UnitKind;
-    index: number;
     frequencies: number[];
+    kind: UnitKind;
+    color: string;
+    index: number;
 }>;
 export declare const CompositeUnitSchema: z.ZodObject<z.extendShape<{
     kind: z.ZodNativeEnum<typeof UnitKind>;
@@ -43,36 +43,36 @@ export declare const CompositeUnitSchema: z.ZodObject<z.extendShape<{
         frequencies: z.ZodArray<z.ZodNumber, "many">;
     }>, "strip", z.ZodTypeAny, {
         symbol: string;
-        color: string;
-        kind: UnitKind;
-        index: number;
         frequencies: number[];
+        kind: UnitKind;
+        color: string;
+        index: number;
     }, {
         symbol: string;
-        color: string;
-        kind: UnitKind;
-        index: number;
         frequencies: number[];
+        kind: UnitKind;
+        color: string;
+        index: number;
     }>, "many">;
 }>, "strip", z.ZodTypeAny, {
+    kind: UnitKind;
     children: {
         symbol: string;
-        color: string;
-        kind: UnitKind;
-        index: number;
         frequencies: number[];
+        kind: UnitKind;
+        color: string;
+        index: number;
     }[];
-    kind: UnitKind;
     index: number;
 }, {
+    kind: UnitKind;
     children: {
         symbol: string;
-        color: string;
-        kind: UnitKind;
-        index: number;
         frequencies: number[];
+        kind: UnitKind;
+        color: string;
+        index: number;
     }[];
-    kind: UnitKind;
     index: number;
 }>;
 export declare const TactSchema: z.ZodObject<{

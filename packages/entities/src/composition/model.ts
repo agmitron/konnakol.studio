@@ -1,5 +1,5 @@
 import { Beat } from '../unit/shared'
-import { Indexed } from 'utils/types'
+import { types } from 'utils'
 import Tact from '../unit/tact'
 
 type CompositionTransition = AsyncGenerator<ICompositionState>
@@ -17,8 +17,8 @@ export interface ICompositionConfig {
 }
 
 export interface ICompositionState {
-  tact: Indexed & Tact
-  beat: Indexed & Beat
+  tact: types.Indexed & Tact
+  beat: types.Indexed & Beat
 }
 
 export interface IComposition extends ICompositionConfig {

@@ -35,3 +35,5 @@ sample({
   target: $sounds
 })
 
+export * from './api'
+

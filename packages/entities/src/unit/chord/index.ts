@@ -1,6 +1,4 @@
-import { Frequency, areFrequenciesCorrect } from 'utils/frequency';
-import { sleep } from 'utils/common';
-import { bpmToMilliseconds } from 'utils/tempo';
+import { common, tempo, frequency } from 'utils';
 import { Unit, CompositeUnit, SingleUnit, UnitKind, UnitType, WithFrequencies } from '../shared';
 
 export const isChord = (
@@ -8,7 +6,7 @@ export const isChord = (
 ): unit is Chord => unit instanceof Chord
 
 export default class Chord implements CompositeUnit<SingleUnit[]>, WithFrequencies {
-  public readonly frequencies: Frequency[]
+  public readonly frequencies: frequency.Frequency[]
   public readonly kind: UnitKind.Composite = UnitKind.Composite;
   public readonly type: UnitType.Chord = UnitType.Chord
 
@@ -17,12 +15,12 @@ export default class Chord implements CompositeUnit<SingleUnit[]>, WithFrequenci
   }
 
   async *play(bpm: number) {
-    const interval = bpmToMilliseconds(bpm)
+    const interval = tempo.bpmToMilliseconds(bpm)
     yield this
-    await sleep(interval)
+    await common.sleep(interval)
   }
 
-  check(receivedFrequency: Frequency) {
-    return areFrequenciesCorrect(this.frequencies, receivedFrequency)
+  check(receivedFrequency: frequency.Frequency) {
+    return frequency.areFrequenciesCorrect(this.frequencies, receivedFrequency)
   }
 }
