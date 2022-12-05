@@ -1,10 +1,9 @@
 import { combine, createEvent, createStore, sample, UnitValue } from 'effector';
 import { instantiatePopup } from '~/widgets/tool/sounds/dialog/unit/shared/popup'
 import { flatFrequencies, instantiateUnitForm } from '~/widgets/tool/sounds/dialog/unit/shared/form'
-import { $sounds } from '~/entities/user/model';
-import Sound from '~/entities/unit/sound/model';
+import { $sounds, Sound } from 'entities';
 import { reset } from 'patronum';
-import { NonNullableStructure } from '~/shared/utils/types';
+import { NonNullableStructure } from 'utils/types';
 
 export const saved = createEvent()
 export const unitChosen = createEvent<number>()

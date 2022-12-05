@@ -1,5 +1,5 @@
 import { createEvent, createStore, sample } from 'effector'
-import Sound from '../unit/sound';
+import { Sound } from '../unit/sound';
 import { SingleUnit } from '../unit/shared'
 // import { createSoundFx } from '../unit/sound/index';
 

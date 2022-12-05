@@ -1,10 +1,24 @@
-import { useMemo } from 'react';
-import { SingleUnit } from "~/entities/unit/shared";
-import "./Chord.css";
+import React from "react";
+import { useMemo } from "react";
+import { SingleUnit } from "entities";
+import { styled } from "@mui/material";
 
 interface IChordComponentProps {
   notes: SingleUnit[];
 }
+
+const Root = styled("div")`
+  display: flex;
+  gap: 5px;
+  font-size: 16px;
+`;
+
+const Column = styled("div")`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 
 const ChordComponent: React.FC<IChordComponentProps> = ({ notes }) => {
   const columns = useMemo(
@@ -26,17 +40,17 @@ const ChordComponent: React.FC<IChordComponentProps> = ({ notes }) => {
   );
 
   return (
-    <div className="unit--type--chord">
+    <Root>
       {columns.map((c, i) => (
-        <div className="unit--type--chord__column" key={i}>
+        <Column key={i}>
           {c.map(({ symbol, color }, i) => (
             <span style={{ color }} key={`${color}-${symbol}#${i}`}>
               {symbol}
             </span>
           ))}
-        </div>
+        </Column>
       ))}
-    </div>
+    </Root>
   );
 };
 

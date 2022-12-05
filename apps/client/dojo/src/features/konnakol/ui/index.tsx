@@ -1,6 +1,6 @@
 import { styled, TextField } from "@mui/material";
 import { useStore } from "effector-react";
-import Tact from "~/entities/unit/tact/ui";
+import { Tact } from "ui";
 import { $composition, $konnakol, konnakolChanged } from "../model";
 
 const Root = styled("section")`

@@ -1,4 +1,5 @@
-import { Selectable } from "~/shared/utils/types";
+import React from 'react'
+import { Selectable } from "utils/types";
 
 interface ISound extends Selectable {
   symbol: string;

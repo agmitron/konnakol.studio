@@ -4,8 +4,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button, IconButton } from "@mui/material";
 import { useStore, useStoreMap } from "effector-react";
-import Sound from "~/entities/unit/sound/ui";
-import { $sounds } from "~/entities/user/model";
+import { $sounds } from "entities";
+import { Sound } from "ui";
 import ContextMenu, {
   SoundsContextMenuGroups,
 } from "~/widgets/context-menu/ui";

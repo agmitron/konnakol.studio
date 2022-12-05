@@ -1,15 +1,15 @@
 import { combine, createEffect, createEvent, createStore, sample, UnitValue } from 'effector'
-import Composition, { CompositionId, ICompositionState } from '~/entities/composition/model'
+import { Composition, CompositionId, ICompositionState } from 'entities'
 
 import { and, delay, reset } from 'patronum'
-import { NonNullableStructure } from '~/shared/utils/types'
-import { bpmToMilliseconds } from '~/shared/utils/tempo'
-import { $frequency, $pitcher, $webAudio } from '~/shared/pitch'
-import { DEFAULT_BPM } from '~/shared/utils/constants'
-import { $score, ScoreSource, ScoreString, Correctness, updateScore } from '~/features/dojo/score'
-import { pitchers } from '~/shared/pitch/shared'
+import { NonNullableStructure } from 'utils/types'
+import { bpmToMilliseconds } from 'utils/tempo'
+import { $frequency, $pitcher } from 'pitch'
+import { DEFAULT_BPM } from 'utils/constants'
+import { $score, ScoreSource, ScoreString, Correctness, updateScore } from './score'
+import { pitchers } from 'pitch'
 import * as validation from './validation'
-import { loadCompositionFx } from '~/entities/composition/api'
+import { loadCompositionFx } from 'entities'
 
 
 interface RepeatCompositionSource {

@@ -29,7 +29,10 @@
     "typescript": "^4.4.2",
     "web-vitals": "^2.1.0",
     "zod": "^3.19.1",
-    "utils": "*"
+    "utils": "*",
+    "ui": "*",
+    "entities": "*",
+    "pitch": "*"
   },
   "scripts": {
     "start": "craco start",

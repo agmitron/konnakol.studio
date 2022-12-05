@@ -1,5 +1,5 @@
 import { Unit } from '../shared'
 
-export default class Tact {
+export  class Tact {
   constructor(public readonly units: Unit[]) { }
 }

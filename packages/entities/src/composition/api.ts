@@ -1,15 +1,20 @@
 import { createEffect } from 'effector';
 import * as compositions from "./data";
-import { CompositionId } from './model';
+import { Composition, CompositionId } from './model';
 
 export async function loadComposition(id: number) {
-  const composition = Object.values(compositions).find((composition) => composition.id === id)
+  const foundComposition = Object.values(compositions).find((composition) => composition.id === id)
 
-  if (!composition) {
+  if (!foundComposition) {
     throw new Error(`Failed to load composition with id ${id}`)
   }
 
-  return composition
+  // TODO: deserializing logic
+
+  return new Composition({
+    ...foundComposition,
+    pattern: []
+  })
 }
 
 export const loadCompositionFx = createEffect(

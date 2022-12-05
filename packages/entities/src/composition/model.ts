@@ -1,6 +1,6 @@
 import { Beat } from '../unit/shared'
-import { types } from 'utils'
-import Tact from '../unit/tact'
+import { Indexed } from 'utils/types'
+import { Tact } from '../unit/tact'
 
 type CompositionTransition = AsyncGenerator<ICompositionState>
 type UpdateHandler = (state: ICompositionState) => void
@@ -17,15 +17,15 @@ export interface ICompositionConfig {
 }
 
 export interface ICompositionState {
-  tact: types.Indexed & Tact
-  beat: types.Indexed & Beat
+  tact: Indexed & Tact
+  beat: Indexed & Beat
 }
 
 export interface IComposition extends ICompositionConfig {
   play: (bpm?: number) => Promise<Composition>;
 }
 
-export default class Composition implements IComposition {
+export class Composition implements IComposition {
   public readonly id: CompositionId
   public readonly name: string
   public readonly pattern: Pattern

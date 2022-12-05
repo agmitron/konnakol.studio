@@ -12,7 +12,7 @@ interface SoundConfig {
 
 export const isSound = (unit: Unit): unit is Sound => unit instanceof Sound
 
-export default class Sound implements SingleUnit, Renderable, WithFrequencies {
+export  class Sound implements SingleUnit, Renderable, WithFrequencies {
   public readonly kind: UnitKind.Single = UnitKind.Single
   public readonly type: UnitType.Sound = UnitType.Sound
 

@@ -1,5 +1,6 @@
-import UnitComponent from "~/entities/unit/shared/ui";
-import Unit from "~/entities/unit/shared";
+import React from "react";
+import UnitWrapper from "./UnitWrapper";
+import { Unit } from "entities";
 import { styled } from "@mui/material";
 
 interface ITactProps {
@@ -25,7 +26,7 @@ function Tact(props: ITactProps) {
   return (
     <Root isSelected={props.isSelected}>
       {props.units.map((unit, index) => (
-        <UnitComponent
+        <UnitWrapper
           key={index}
           unit={unit}
           isSelected={props.selectedUnitIndex === index}

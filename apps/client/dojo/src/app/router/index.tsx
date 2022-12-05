@@ -6,11 +6,7 @@ const router = createBrowserRouter(
   [
     {
       path: "composition/:compositionId",
-      element: (
-        <Layout title="Dojo">
-          <Dojo />
-        </Layout>
-      ),
+      element: <Dojo />,
     }
   ]
 );

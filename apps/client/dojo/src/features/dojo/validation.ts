@@ -1,4 +1,4 @@
-import { PitcherName, pitchers } from '~/shared/pitch/shared'
+import { PitcherName, pitchers } from 'pitch'
 
 export const bpm = (value: ReturnType<typeof prompt>) => {
   if (!value) {

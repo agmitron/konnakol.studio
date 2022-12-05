@@ -1,12 +1,9 @@
 import React from "react";
 import { styled } from "@mui/material";
-import Sound from "~/entities/unit/sound/ui";
-import Chord from "~/entities/unit/chord/ui";
-import Roll from "~/entities/unit/roll/ui";
-import Unit from "~/entities/unit/shared";
-import { isSound } from "~/entities/unit/sound/model";
-import { isChord } from "~/entities/unit/chord/model";
-import { isRoll } from "~/entities/unit/roll/model";
+import Sound from "./Sound";
+import Chord from "./Chord";
+import Roll from "./Roll";
+import { Unit, isSound, isChord, isRoll } from "entities";
 
 interface IUnitProps {
   unit: Unit;

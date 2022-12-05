@@ -1,15 +1,15 @@
 import { Frequency, areFrequenciesCorrect } from 'utils/frequency';
 import { sleep } from 'utils/common';
 import { bpmToMilliseconds } from 'utils/tempo';
-import Chord from '../chord';
-import Sound from '../sound';
+import { Chord } from '../chord';
+import { Sound } from '../sound';
 import { Unit, CompositeUnit, UnitKind, UnitType, Beat } from '../shared';
 
 export const isRoll = (unit: Unit): unit is Roll => unit instanceof Roll
 
 export type RollChildren = (Sound | Chord)[]
 
-export default class Roll implements CompositeUnit<RollChildren> {
+export class Roll implements CompositeUnit<RollChildren> {
   public readonly kind = UnitKind.Composite
   public readonly type = UnitType.Roll
   public currentFraction: Beat | null = null

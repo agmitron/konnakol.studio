@@ -6,7 +6,7 @@ export enum UnitKind {
 }
 
 export enum UnitType {
-  Sound = 'note',
+  Sound = 'sound',
   Chord = 'chord',
   Roll = 'roll'
 }
