@@ -2,11 +2,11 @@ import { createEvent, createStore, sample } from 'effector';
 import { condition, empty, not } from 'patronum';
 import { createForm } from '~/shared/form';
 import { Form } from '~/shared/form/types';
-import { filter, values } from '~/shared/form/utils';
+import { filter } from '~/shared/form/utils';
 import { createValidator } from '~/shared/form/validators';
 import { $frequency, startListeningMicro, stopListeningMicro } from '~/shared/pitch';
-import { anyString, numerical } from '~/shared/regexp';
-import { FrequencyIndex } from '~/shared/types';
+import { anyString, numerical } from 'utils/regexp';
+import { FrequencyIndex } from 'utils/frequency';
 import { Frequency } from '~/shared/types/fraction.types';
 
 type FrequencyKey = `frequency${FrequencyIndex}`

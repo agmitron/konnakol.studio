@@ -1,4 +1,4 @@
-export declare type NonNullableStructure<T> = {
+export type NonNullableStructure<T> = {
     [P in keyof T]: NonNullable<T[P]>;
 };
 export interface Selectable {
@@ -7,5 +7,5 @@ export interface Selectable {
 export interface Indexed<I = number> {
     index: I;
 }
-export declare type ToolbarUnitIndex = number;
-export declare type FrequencyIndex = number;
+export type ToolbarUnitIndex = number;
+export type FrequencyIndex = number;

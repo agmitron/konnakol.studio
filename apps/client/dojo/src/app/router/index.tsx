@@ -1,7 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import LoginPage from "~/pages/auth/login/ui";
-import RegisterPage from "~/pages/auth/register/ui";
-import Dojo from "~/pages/dojo/ui";
+import Dojo from "~/pages/_/ui";
 import Layout from "../layout/ui";
 
 const router = createBrowserRouter(
@@ -13,15 +11,7 @@ const router = createBrowserRouter(
           <Dojo />
         </Layout>
       ),
-    },
-    // {
-    //   path: "auth/login",
-    //   element: <LoginPage />,
-    // },
-    // {
-    //   path: "auth/register",
-    //   element: <RegisterPage />,
-    // },
+    }
   ]
 );
 

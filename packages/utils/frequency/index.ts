@@ -1,6 +1,7 @@
 import { FREQUENCY_DEVIATION } from '../constants';
 
 export type Frequency = number;
+export type FrequencyIndex = number;
 
 export const isFrequencyCorrect = (expected: number, received: number) => {
   return received <= expected + FREQUENCY_DEVIATION && received >= expected - FREQUENCY_DEVIATION;
