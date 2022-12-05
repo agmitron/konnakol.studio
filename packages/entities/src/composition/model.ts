@@ -43,6 +43,16 @@ export class Composition implements IComposition {
     this.size = config.size
   }
 
+  public static serialize({ id, bpm, name, pattern, size }: Composition) {
+    return JSON.stringify({
+      id,
+      bpm,
+      name,
+      pattern,
+      size
+    })
+  }
+
   public async play(bpm: number = this.bpm) {
     this.iterator = this.transition(bpm)
 
@@ -68,16 +78,6 @@ export class Composition implements IComposition {
   public unsubscribe() {
     this.listeners = []
     return this
-  }
-
-  public stringify() {
-    return JSON.stringify({
-      id: this.id,
-      bpm: this.bpm,
-      name: this.name,
-      pattern: this.pattern,
-      size: this.size
-    })
   }
 
   private async *transition(bpm: number): CompositionTransition {

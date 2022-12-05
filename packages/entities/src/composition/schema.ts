@@ -1,9 +1,9 @@
 import z from 'zod'
-import { UnitKind } from '../unit/shared'
+import { UnitKind, UnitType } from '../unit/shared'
 
 export const UnitSchema = z.object({
   kind: z.nativeEnum(UnitKind),
-  index: z.number().gte(0)
+  type: z.nativeEnum(UnitType)
 })
 
 export const SoundSchema = UnitSchema.extend({
@@ -17,7 +17,6 @@ export const CompositeUnitSchema = UnitSchema.extend({
 })
 
 export const TactSchema = z.object({
-  index: z.number(),
   units: z.array(UnitSchema)
 })
 
