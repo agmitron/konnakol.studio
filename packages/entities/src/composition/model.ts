@@ -1,6 +1,8 @@
-import { Beat } from '../unit/shared'
+import { Beat, UnitType } from '../unit/shared'
 import { Indexed } from 'utils/types'
-import { Tact } from '../unit/tact'
+import { Tact } from '~/unit/tact'
+import { CompositionSchema } from './schema'
+import { Chord, Roll, Sound } from '~/unit'
 
 type CompositionTransition = AsyncGenerator<ICompositionState>
 type UpdateHandler = (state: ICompositionState) => void
@@ -43,13 +45,36 @@ export class Composition implements IComposition {
     this.size = config.size
   }
 
-  public static serialize({ id, bpm, name, pattern, size }: Composition) {
-    return JSON.stringify({
-      id,
-      bpm,
-      name,
-      pattern,
-      size
+  public static serialize(composition: Composition) {
+    return JSON.stringify(composition)
+  }
+
+  public static deserialize(json: string) {
+    const object = JSON.parse(json)
+    const config = CompositionSchema.parse(object)
+
+    const pattern = config.pattern
+      .map(({ units }) => new Tact(
+        units.map(unit => {
+          switch (unit.type) {
+            case UnitType.Chord: {
+              return new Chord(unit.children.map((config) => new Sound(config)))
+            }
+
+            case UnitType.Roll: {
+              return new Roll(unit.children.map((config) => new Sound(config)))
+            }
+
+            case UnitType.Sound: {
+              return new Sound(unit)
+            }
+          }
+        })
+      ))
+
+    return new Composition({
+      ...config,
+      pattern
     })
   }
 

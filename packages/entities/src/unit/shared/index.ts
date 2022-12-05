@@ -1,10 +1,5 @@
 import { Frequency } from 'utils/frequency';
 
-export enum UnitKind {
-  Composite = 'composite',
-  Single = 'single'
-}
-
 export enum UnitType {
   Sound = 'sound',
   Chord = 'chord',
@@ -12,7 +7,6 @@ export enum UnitType {
 }
 
 export interface Unit {
-  readonly kind: UnitKind
   readonly type: UnitType
   play: (bpm: number) => AsyncGenerator<Unit & WithFrequencies>
   check: (receivedFrequency: Frequency) => boolean
@@ -28,14 +22,9 @@ export interface Renderable {
   readonly shortcut: string
 }
 
-export interface SingleUnit extends Unit, Renderable, WithFrequencies {
-  readonly kind: UnitKind.Single
-  readonly type: UnitType.Sound
-}
+export interface SingleUnit extends Unit, Renderable, WithFrequencies {}
 
 export interface CompositeUnit<Children extends Unit[]> extends Unit {
-  readonly kind: UnitKind.Composite
-  readonly type: UnitType.Chord | UnitType.Roll
   readonly children: Children
 }
 

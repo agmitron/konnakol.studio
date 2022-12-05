@@ -1,23 +1,25 @@
 import z from 'zod'
-import { UnitKind, UnitType } from '../unit/shared'
+import { UnitType } from '../unit/shared'
 
 export const UnitSchema = z.object({
-  kind: z.nativeEnum(UnitKind),
   type: z.nativeEnum(UnitType)
 })
 
-export const SoundSchema = UnitSchema.extend({
+export const SingleUnitSchema = UnitSchema.extend({
+  type: z.enum([UnitType.Sound]),
   symbol: z.string(),
   color: z.string(),
+  shortcut: z.string(),
   frequencies: z.array(z.number())
 })
 
 export const CompositeUnitSchema = UnitSchema.extend({
-  children: z.array(SoundSchema)
+  type: z.enum([UnitType.Chord, UnitType.Roll]),
+  children: z.array(SingleUnitSchema)
 })
 
 export const TactSchema = z.object({
-  units: z.array(UnitSchema)
+  units: z.array(z.union([CompositeUnitSchema, SingleUnitSchema]))
 })
 
 export const PatternSchema = z.array(TactSchema)
