@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "effector": "^22.4.0",
+    "patronum": "^1.12.3",
     "pitchfinder": "^2.3.2",
     "utils": "*",
     "zod": "^3.19.1"

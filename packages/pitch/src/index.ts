@@ -6,6 +6,8 @@ import { initializeWebAudioApi, IWebAudioAPI } from './web-audio';
 
 export * from './shared'
 
+console.log({ interval, not })
+
 export interface DetectPitchInBackgroundFxParams {
   webAudio: IWebAudioAPI;
   pitcher: Pitcher;

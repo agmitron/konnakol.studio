@@ -20,7 +20,10 @@ const reorderFrequencies = (
   const reordered = Object
     .entries(form)
     .sort()
-    .map(([key, entry], index) => key.startsWith('frequency') ? [makeFrequencyKey(index), entry] : [key, entry])
+    .map(([key, entry], index) => key.startsWith('frequency')
+      ? [makeFrequencyKey(index), entry]
+      : [key, entry]
+    )
 
   return Object.fromEntries(reordered) as Form<UnitFormField>
 }

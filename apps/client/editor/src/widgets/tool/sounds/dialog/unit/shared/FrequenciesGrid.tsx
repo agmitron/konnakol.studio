@@ -83,7 +83,6 @@ const FrequenciesGrid: React.FC<IFrequenciesGridProps> = ({
       <Grid item xs={1}>
         <IconButton
           color="primary"
-          className="create-unit-form__add-frequency-button"
           onClick={() => add()}
         >
           <AddIcon />
