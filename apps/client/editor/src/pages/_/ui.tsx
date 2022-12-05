@@ -8,6 +8,7 @@ import {
 import PlayIcon from "@mui/icons-material/PlayArrow";
 import SaveIcon from "@mui/icons-material/Save";
 import ShareIcon from "@mui/icons-material/Share";
+import { Header } from "ui";
 import Sheet from "~/features/konnakol/ui";
 import CreateUnitDialog from "~/widgets/tool/sounds/dialog/unit/create/ui";
 import EditUnitDialog from "~/widgets/tool/sounds/dialog/unit/edit/ui";
@@ -43,29 +44,32 @@ function Editor() {
   const { compositionId } = useParams();
 
   return (
-    <Root>
-      <Sidebar />
-      <Workspace>
-        <Title />
-        <Sheet />
-      </Workspace>
-      <CreateUnitDialog />
-      <EditUnitDialog />
-      <SpeedDial
-        ariaLabel="SpeedDial basic example"
-        sx={{ position: "fixed", bottom: 16, right: 16 }}
-        icon={<SpeedDialIcon />}
-      >
-        {actions.map((action) => (
-          <SpeedDialAction
-            key={action.name}
-            icon={action.icon}
-            tooltipTitle={action.name}
-            onClick={action.onClick}
-          />
-        ))}
-      </SpeedDial>
-    </Root>
+    <>
+      <Header title="Editor" />
+      <Root>
+        <Sidebar />
+        <Workspace>
+          <Title />
+          <Sheet />
+        </Workspace>
+        <CreateUnitDialog />
+        <EditUnitDialog />
+        <SpeedDial
+          ariaLabel="SpeedDial basic example"
+          sx={{ position: "fixed", bottom: 16, right: 16 }}
+          icon={<SpeedDialIcon />}
+        >
+          {actions.map((action) => (
+            <SpeedDialAction
+              key={action.name}
+              icon={action.icon}
+              tooltipTitle={action.name}
+              onClick={action.onClick}
+            />
+          ))}
+        </SpeedDial>
+      </Root>
+    </>
   );
 }
 

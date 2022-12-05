@@ -8,5 +8,8 @@
   ],
   "devDependencies": {
     "lerna": "^6.1.0"
+  },
+  "scripts": {
+    "build": "lerna run build"
   }
 }

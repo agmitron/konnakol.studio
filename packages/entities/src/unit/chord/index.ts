@@ -1,7 +1,7 @@
 import { sleep } from 'utils/common';
 import { Frequency, areFrequenciesCorrect } from 'utils/frequency';
 import { bpmToMilliseconds } from 'utils/tempo';
-import { Unit, CompositeUnit, SingleUnit, UnitKind, UnitType, WithFrequencies } from '../shared';
+import { Unit, CompositeUnit, SingleUnit, UnitType, WithFrequencies } from '../shared';
 
 export const isChord = (
   unit: Unit
@@ -9,7 +9,6 @@ export const isChord = (
 
 export class Chord implements CompositeUnit<SingleUnit[]>, WithFrequencies {
   public readonly frequencies: Frequency[]
-  public readonly kind: UnitKind.Composite = UnitKind.Composite;
   public readonly type: UnitType.Chord = UnitType.Chord
 
   constructor(public readonly children: SingleUnit[]) {

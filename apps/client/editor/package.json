@@ -30,7 +30,8 @@
     "zod": "^3.19.1",
     "entities": "*",
     "form": "*",
-    "pitch": "*"
+    "pitch": "*",
+    "ui": "*"
   },
   "scripts": {
     "start": "craco start",

@@ -4,9 +4,7 @@ import { Frequency } from 'utils/frequency';
 import { Pitcher, pitchers } from './shared';
 import { initializeWebAudioApi, IWebAudioAPI } from './web-audio';
 
-export * from './shared'
-
-console.log({ interval, not })
+console.log({ interval, not, patronum })
 
 export interface DetectPitchInBackgroundFxParams {
   webAudio: IWebAudioAPI;
@@ -69,3 +67,5 @@ sample({
   fn: (frequency: Frequency) => frequency,
   target: $frequency
 })
+
+export * from './shared'

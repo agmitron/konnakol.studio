@@ -1,7 +1,7 @@
 import { Frequency, isFrequencyCorrect } from 'utils/frequency';
 import { sleep } from 'utils/common';
 import { bpmToMilliseconds } from 'utils/tempo';
-import { Unit, Renderable, SingleUnit, UnitKind, UnitType, WithFrequencies } from '../shared';
+import { Unit, Renderable, SingleUnit, UnitType, WithFrequencies } from '../shared';
 
 interface SoundConfig {
   frequencies: Frequency[]
@@ -13,7 +13,6 @@ interface SoundConfig {
 export const isSound = (unit: Unit): unit is Sound => unit instanceof Sound
 
 export  class Sound implements SingleUnit, Renderable, WithFrequencies {
-  public readonly kind: UnitKind.Single = UnitKind.Single
   public readonly type: UnitType.Sound = UnitType.Sound
 
   public readonly frequencies: Frequency[]
