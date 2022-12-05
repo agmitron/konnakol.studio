@@ -1,5 +1,5 @@
 import { createEvent, createStore, sample } from 'effector';
-import { soundDeleted } from '~/entities/user/model';
+import { soundDeleted } from 'entities';
 import { unitChosen } from './dialog/unit/edit/model';
 
 export const $contextMenuAnchorElement = createStore<HTMLElement | null>(null)

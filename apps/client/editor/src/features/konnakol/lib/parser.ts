@@ -1,10 +1,4 @@
-import { Pattern } from '~/entities/composition/model';
-import Tact from '~/entities/unit/tact/model';
-import Chord from '~/entities/unit/chord/model';
-import Sound, { isSound } from '~/entities/unit/sound/model';
-import Roll from '~/entities/unit/roll/model';
-import Unit from '~/entities/unit/shared';
-import { ShorcutsToUnits } from '~/entities/user/model';
+import { Pattern, Tact, Chord, Sound, isSound, Roll, Unit, ShorcutsToUnits } from 'entities';
 
 const isChordSymbol = (symbol: string) => /^\((\S+\|?)+\)$/.test(symbol)
 const isRollSymbol = (symbol: string) => /^\[\S+,?\]$/.test(symbol)

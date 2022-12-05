@@ -1,13 +1,12 @@
 import { createEvent, createStore, sample } from 'effector';
 import { condition, empty, not } from 'patronum';
-import { createForm } from '~/shared/form';
-import { Form } from '~/shared/form/types';
-import { filter, values } from '~/shared/form/utils';
-import { createValidator } from '~/shared/form/validators';
-import { $frequency, startListeningMicro, stopListeningMicro } from '~/shared/pitch';
-import { anyString, numerical } from '~/shared/regexp';
-import { FrequencyIndex } from '~/shared/types';
-import { Frequency } from '~/shared/types/fraction.types';
+import { createForm } from 'form';
+import { Form } from 'form/types';
+import { filter } from 'form/utils';
+import { createValidator } from 'form/validators';
+import { $frequency, startListeningMicro, stopListeningMicro } from 'pitch';
+import { anyString, numerical } from 'utils/regexp';
+import { FrequencyIndex, Frequency } from 'utils/frequency';
 
 type FrequencyKey = `frequency${FrequencyIndex}`
 type FlatFrequencies = Record<FrequencyKey, Frequency>

@@ -1,8 +1,7 @@
 import { createEvent, sample } from 'effector';
 import { instantiatePopup } from "~/widgets/tool/sounds/dialog/unit/shared/popup";
 import { instantiateUnitForm } from "~/widgets/tool/sounds/dialog/unit/shared/form";
-import { $sounds, soundCreated } from '~/entities/user/model';
-import Sound from '~/entities/unit/sound/model';
+import { soundCreated, Sound } from 'entities';
 import { reset } from 'patronum';
 
 export const created = createEvent()

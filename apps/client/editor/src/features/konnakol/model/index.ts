@@ -1,5 +1,5 @@
 import { combine, createEvent, createStore, sample } from 'effector';
-import { $soundsAsMapping } from '~/entities/user/model';
+import { $soundsAsMapping } from 'entities';
 import parseKonnakol from '../lib/parser';
 
 export const $konnakol = createStore('');
