@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "effector": "^22.4.0",
-    "utils": "*",
+    "utils": "workspace:*",
     "zod": "^3.19.1"
   },
   "scripts": {

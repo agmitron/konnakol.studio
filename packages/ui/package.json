@@ -14,11 +14,14 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.5",
-    "@emotion/styled": "^11.10.5",
-    "@mui/material": "^5.10.16",
-    "react": "^18.2.0",
-    "entities": "*",
-    "utils": "*"
+    "entities": "workspace:*",
+    "utils": "workspace:*"
+  },
+  "peerDependencies": {
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/material": "^5.10.8",
+    "@mui/icons-material": "^5.10.6",
+    "react": "^18.2.0"
   }
 }

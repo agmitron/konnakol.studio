@@ -4,8 +4,6 @@ import { Frequency } from 'utils/frequency';
 import { Pitcher, pitchers } from './shared';
 import { initializeWebAudioApi, IWebAudioAPI } from './web-audio';
 
-console.log({ interval, not, patronum })
-
 export interface DetectPitchInBackgroundFxParams {
   webAudio: IWebAudioAPI;
   pitcher: Pitcher;
