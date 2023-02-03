@@ -29,7 +29,7 @@ function Tact(props: ITactProps) {
         <UnitWrapper
           key={index}
           unit={unit}
-          isSelected={props.selectedUnitIndex === index}
+          isSelected={props.isSelected && props.selectedUnitIndex === index}
         />
       ))}
     </Root>

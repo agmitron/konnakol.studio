@@ -6,8 +6,8 @@ export interface Selectable {
   selected?: boolean;
 }
 
-export interface Indexed<I = number> {
-  index: I
+export class Indexed<T> {
+  constructor(public readonly index: number, public readonly value: T) { }
 }
 
 export type ToolbarUnitIndex = number

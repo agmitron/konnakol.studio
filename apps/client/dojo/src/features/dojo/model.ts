@@ -1,20 +1,15 @@
 import { combine, createEffect, createEvent, createStore, sample, UnitValue } from 'effector'
-import { Composition, CompositionId, ICompositionState } from 'entities'
-
-import { and, delay, reset } from 'patronum'
+import { Composition, CompositionId, ICompositionState, loadCompositionFx } from 'entities'
+import * as validation from './validation'
+import { and, not, reset } from 'patronum'
 import { NonNullableStructure } from 'utils/types'
-import { bpmToMilliseconds } from 'utils/tempo'
-import { $frequency, $pitcher } from 'pitch'
+import { $frequency, $pitcher, pitchers, startListeningMicro, stopListeningMicro } from 'pitch'
 import { DEFAULT_BPM } from 'utils/constants'
 import { $score, ScoreSource, ScoreString, Correctness, updateScore } from './score'
-import { pitchers } from 'pitch'
-import * as validation from './validation'
-import { loadCompositionFx } from 'entities'
-
 
 interface RepeatCompositionSource {
   composition: Composition | null
-  isRepeating: boolean
+  isLooping: boolean
   bpm: number
 }
 
@@ -48,7 +43,7 @@ export const $bpm = createStore(DEFAULT_BPM)
 export const $composition = createStore<Composition | null>(null)
 export const $compositionState = createStore<ICompositionState | null>(null)
 
-export const $isRepeating = createStore(false)
+export const $isLooping = createStore(false)
 export const $loopIndex = createStore(0);
 
 export const $scoreSource = combine({
@@ -59,22 +54,46 @@ export const $scoreSource = combine({
 
 export const $isPlaying = and($composition, playCompositionFx.pending)
 
-export const compositionFinished = delay({
-  source: playCompositionFx.done,
-  timeout: $bpm.map(bpmToMilliseconds)
-})
-
+export const playButtonClicked = createEvent()
 export const compositionRequested = createEvent<CompositionId>()
 export const loopIncremented = createEvent()
-export const compositionSubscribed = createEvent()
-export const compositionUnsubscribed = createEvent()
 export const compositionUpdated = createEvent<ICompositionState>()
 export const compositionStarted = createEvent()
 export const compositionStopped = createEvent()
 export const listenButtonClicked = createEvent()
 export const enterBPMButtonClicked = createEvent()
 export const pitcherUpdated = createEvent<string>()
-export const isRepeatingToggled = createEvent<boolean>()
+export const loopButtonClicked = createEvent()
+
+$loopIndex.on(loopIncremented, prev => prev + 1)
+
+sample({
+  clock: compositionStarted,
+  target: startListeningMicro
+})
+
+sample({
+  clock: compositionStopped,
+  target: stopListeningMicro
+})
+
+sample({
+  clock: playButtonClicked,
+  filter: $isPlaying,
+  target: compositionStopped
+})
+
+sample({
+  clock: playCompositionFx.done,
+  filter: not($isLooping), 
+  target: compositionStopped
+})
+
+sample({
+  clock: playButtonClicked,
+  filter: not($isPlaying),
+  target: compositionStarted
+})
 
 sample({
   clock: compositionRequested,
@@ -86,47 +105,34 @@ sample({
   target: $composition
 })
 
+sample({
+  clock: compositionUpdated,
+  target: $compositionState
+})
+
 reset({
-  clock: compositionFinished,
+  clock: compositionStopped,
   target: [$compositionState, $frequency, $score]
 })
 
 sample({
-  clock: isRepeatingToggled,
-  target: $isRepeating
+  clock: loopButtonClicked,
+  source: not($isLooping),
+  target: $isLooping
 })
 
 sample({
-  clock: $isPlaying,
-  filter: Boolean,
-  target: compositionSubscribed
-})
-
-sample({
-  clock: $isPlaying,
-  filter: (v) => !Boolean(v),
-  target: compositionUnsubscribed
-})
-
-sample({
-  clock: compositionSubscribed,
+  clock: compositionStarted,
   source: $composition,
   filter: Boolean,
   target: subscribeCompositionUpdatesFx
 })
 
 sample({
-  clock: compositionUnsubscribed,
+  clock: compositionStopped,
   source: $composition,
   filter: Boolean,
-  target: unsubscribeCompositionUpdatesFx
-})
-
-sample({
-  clock: loopIncremented,
-  source: $loopIndex,
-  fn: (i) => i + 1,
-  target: $loopIndex
+  target: [unsubscribeCompositionUpdatesFx, stopCompositionFx]
 })
 
 sample({
@@ -137,13 +143,13 @@ sample({
 })
 
 sample({
-  clock: playCompositionFx.done,
-  source: { isRepeating: $isRepeating, composition: $composition, bpm: $bpm },
+  clock: compositionStopped,
+  source: { isLooping: $isLooping, composition: $composition, bpm: $bpm },
   filter: (sourceData: RepeatCompositionSource): sourceData is RepeatCompositionParams => Boolean(
-    sourceData.isRepeating && sourceData.composition
+    sourceData.isLooping && sourceData.composition
   ),
   fn: ({ composition, bpm }: RepeatCompositionParams) => ({ composition, bpm }),
-  target: [playCompositionFx, loopIncremented]
+  target: [compositionStarted, loopIncremented]
 })
 
 sample({
@@ -152,25 +158,12 @@ sample({
   target: $pitcher
 })
 
-sample({
-  clock: $composition,
-  filter: Boolean,
-  fn: ({ bpm }) => bpm,
-  target: $bpm
-})
-
-sample({
-  clock: compositionFinished,
-  source: $composition,
-  filter: Boolean,
-  target: stopCompositionFx
-})
-
+// TODO: probably needs refactor
 sample({
   clock: $scoreSource,
   filter: (source: UnitValue<typeof $scoreSource>): source is ScoreSource => !!source.state?.beat,
   fn: ({ state, frequency, loop }): [ScoreString, Correctness] => {
-    const status = state.beat.check(frequency) ? 'success' : 'failed'
+    const status = state.beat.value.check(frequency) ? 'success' : 'failed'
 
     return [`${loop}:${state.tact.index}:${state.beat.index}`, status];
   },

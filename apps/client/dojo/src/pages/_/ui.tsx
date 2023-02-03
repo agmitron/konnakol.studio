@@ -9,16 +9,16 @@ import { Tact } from "ui";
 
 import {
   enterBPMButtonClicked,
-  isRepeatingToggled,
   pitcherUpdated,
   compositionStarted,
   $bpm,
   $composition,
   $isPlaying,
-  $isRepeating,
   compositionRequested,
   $compositionState,
   compositionStopped,
+  $isLooping,
+  loopButtonClicked,
 } from "~/features/dojo/model";
 
 import { $failed, $success } from "~/features/dojo/score";
@@ -94,7 +94,7 @@ function Dojo() {
   const currentFrequency = useStore($frequency);
   const bpm = useStore($bpm);
   const isPlaying = useStore($isPlaying);
-  const isRepeating = useStore($isRepeating);
+  const isLooping = useStore($isLooping);
   const compositionState = useStore($compositionState);
   const successScore = useStore($success);
   const failedScore = useStore($failed);
@@ -103,7 +103,7 @@ function Dojo() {
   const { compositionId } = useParams();
 
   const expectedFrequencies = useMemo(
-    () => compositionState?.beat.frequencies ?? [],
+    () => compositionState?.beat.value.frequencies ?? [],
     [compositionState]
   );
 
@@ -151,10 +151,8 @@ function Dojo() {
           <FormControlLabel
             control={
               <Checkbox
-                checked={isRepeating}
-                onChange={({ target: { checked } }) =>
-                  isRepeatingToggled(checked)
-                }
+                checked={isLooping}
+                onChange={() => loopButtonClicked()}
               />
             }
             label="Repeat"

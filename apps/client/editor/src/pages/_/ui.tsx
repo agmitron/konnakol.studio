@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import {
+  Box,
   SpeedDial,
   SpeedDialAction,
   SpeedDialIcon,
@@ -24,6 +25,7 @@ const actions = [
 const Root = styled("main")`
   display: grid;
   grid-template-areas:
+    "header header"
     "sidebar workspace"
     "sidebar workspace";
   grid-template-columns: auto 8fr;
@@ -44,32 +46,30 @@ function Editor() {
   const { compositionId } = useParams();
 
   return (
-    <>
+    <Root>
       <Header title="Editor" />
-      <Root>
-        <Sidebar />
-        <Workspace>
-          <Title />
-          <Sheet />
-        </Workspace>
-        <CreateUnitDialog />
-        <EditUnitDialog />
-        <SpeedDial
-          ariaLabel="SpeedDial basic example"
-          sx={{ position: "fixed", bottom: 16, right: 16 }}
-          icon={<SpeedDialIcon />}
-        >
-          {actions.map((action) => (
-            <SpeedDialAction
-              key={action.name}
-              icon={action.icon}
-              tooltipTitle={action.name}
-              onClick={action.onClick}
-            />
-          ))}
-        </SpeedDial>
-      </Root>
-    </>
+      <Sidebar />
+      <Workspace>
+        <Title />
+        <Sheet />
+      </Workspace>
+      <CreateUnitDialog />
+      <EditUnitDialog />
+      <SpeedDial
+        ariaLabel="SpeedDial basic example"
+        sx={{ position: "fixed", bottom: 16, right: 16 }}
+        icon={<SpeedDialIcon />}
+      >
+        {actions.map((action) => (
+          <SpeedDialAction
+            key={action.name}
+            icon={action.icon}
+            tooltipTitle={action.name}
+            onClick={action.onClick}
+          />
+        ))}
+      </SpeedDial>
+    </Root>
   );
 }
 

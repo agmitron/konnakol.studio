@@ -4,8 +4,10 @@ export type NonNullableStructure<T> = {
 export interface Selectable {
     selected?: boolean;
 }
-export interface Indexed<I = number> {
-    index: I;
+export declare class Indexed<T> {
+    readonly index: number;
+    readonly value: T;
+    constructor(index: number, value: T);
 }
 export type ToolbarUnitIndex = number;
 export type FrequencyIndex = number;

@@ -1,8 +1,8 @@
-import { Beat, UnitType } from '../unit/shared'
 import { Indexed } from 'utils/types'
-import { Tact } from '~/unit/tact'
-import { CompositionSchema } from './schema'
 import { Chord, Roll, Sound } from '~/unit'
+import { Tact } from '~/unit/tact'
+import { Beat, UnitType } from '~/unit/shared'
+import { CompositionSchema } from './schema'
 
 type CompositionTransition = AsyncGenerator<ICompositionState>
 type UpdateHandler = (state: ICompositionState) => void
@@ -19,8 +19,8 @@ export interface ICompositionConfig {
 }
 
 export interface ICompositionState {
-  tact: Indexed & Tact
-  beat: Indexed & Beat
+  tact: Indexed<Tact>
+  beat: Indexed<Beat>
 }
 
 export interface IComposition extends ICompositionConfig {
@@ -111,8 +111,8 @@ export class Composition implements IComposition {
         const beats = unit.play(bpm)
         for await (const beat of beats) {
           yield {
-            beat: { ...beat, index: unitIndex },
-            tact: { ...tact, index: tactIndex }
+            beat: new Indexed(unitIndex, beat),
+            tact: new Indexed(tactIndex, tact)
           }
         }
       }
