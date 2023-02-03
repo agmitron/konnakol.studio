@@ -1,5 +1,4 @@
-import { createEvent, createStore } from 'effector';
-import { sample } from 'lodash';
+import { createEvent, createStore, sample } from 'effector';
 
 const routesTitlesMapping: Record<string, string> = {
   dojo: 'Dojo',

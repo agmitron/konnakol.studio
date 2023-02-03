@@ -15,7 +15,8 @@
   },
   "dependencies": {
     "entities": "workspace:*",
-    "utils": "workspace:*"
+    "utils": "workspace:*",
+    "@mui/material": "^5.10.8"
   },
   "peerDependencies": {
     "@emotion/react": "^11.10.4",

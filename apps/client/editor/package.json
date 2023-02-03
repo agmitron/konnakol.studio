@@ -31,7 +31,8 @@
     "entities": "workspace:*",
     "form": "workspace:*",
     "pitch": "workspace:*",
-    "ui": "workspace:*"
+    "ui": "workspace:*",
+    "utils": "workspace:*"
   },
   "scripts": {
     "start": "craco start",

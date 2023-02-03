@@ -26,6 +26,7 @@
     "react-dom": "18.2.0",
     "typescript": "4.9.3",
     "entities": "workspace:*",
-    "form": "workspace:*"
+    "form": "workspace:*",
+    "utils": "workspace:*"
   }
 }
