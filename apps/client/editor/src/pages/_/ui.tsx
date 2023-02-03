@@ -47,7 +47,7 @@ function Editor() {
 
   return (
     <Root>
-      <Header title="Editor" />
+      <Header title="Editor" gridArea="header" />
       <Sidebar />
       <Workspace>
         <Title />
