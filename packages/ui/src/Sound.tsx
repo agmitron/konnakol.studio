@@ -7,7 +7,7 @@ interface ISound extends Selectable {
   color?: string;
 }
 
-const Root = styled('span')
+const Root = styled('span')``
 
 function Sound({ color = "black", symbol }: ISound) {
   return <Root style={{ color }}>{symbol}</Root>;
