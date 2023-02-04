@@ -17,7 +17,6 @@ const Root = styled("div")`
   justify-content: center;
   align-items: center;
   font-size: 24px;
-  padding: 20px;
   border-radius: ${(p: { isSelected: boolean }) => (p.isSelected ? "5px" : 0)};
   background-color: ${(p: { isSelected: boolean }) =>
     p.isSelected ? "rgba(239, 177, 60, 0.5)" : "transparent"};

@@ -5,47 +5,53 @@ import { useStore } from "effector-react";
 import {
   compositionNameChanged,
   editCompositionNameButtonClicked,
-  saveCompositionNameButtonClicked,
+  compositionNameSaved,
   $compositionName,
   $isCompositionNameEditing,
 } from "./model";
 
 const TitleHeader = styled("header")`
   display: flex;
+  align-items: center;
   column-gap: 15px;
   max-height: min-content;
 `;
+
+const TitleInput = styled(TextField)`
+  .MuiInput-root {
+    font-size: 2.125rem;
+  }
+`
 
 const Title = () => {
   const isCompositionNameEditing = useStore($isCompositionNameEditing);
   const compositionName = useStore($compositionName);
 
-  return (
-    <TitleHeader>
-      {!isCompositionNameEditing ? (
-        <Typography variant="h4">{compositionName}</Typography>
-      ) : (
-        <TextField
+  if (isCompositionNameEditing) {
+    return (
+      <TitleHeader>
+        <TitleInput
           value={compositionName}
           variant="standard"
           onChange={({ target: { value } }) => compositionNameChanged(value)}
+          onKeyDown={(e) => e.key === "Enter" && compositionNameSaved()}
         />
-      )}
-      {!isCompositionNameEditing ? (
-        <IconButton
-          color="primary"
-          onClick={() => editCompositionNameButtonClicked()}
-        >
-          <EditIcon />
-        </IconButton>
-      ) : (
-        <IconButton
-          color="primary"
-          onClick={() => saveCompositionNameButtonClicked()}
-        >
+        <IconButton color="primary" onClick={() => compositionNameSaved()}>
           <DoneIcon />
         </IconButton>
-      )}
+      </TitleHeader>
+    );
+  }
+
+  return (
+    <TitleHeader>
+      <Typography variant="h4">{compositionName}</Typography>
+      <IconButton
+        color="primary"
+        onClick={() => editCompositionNameButtonClicked()}
+      >
+        <EditIcon />
+      </IconButton>
     </TitleHeader>
   );
 };

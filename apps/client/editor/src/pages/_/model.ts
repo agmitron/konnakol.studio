@@ -8,10 +8,10 @@ export enum Tools {
 
 export const $tool = createStore<Tools | null>(Tools.Sounds);
 export const $isCompositionNameEditing = createStore(false);
-export const $compositionName = createStore('');
+export const $compositionName = createStore('New composition');
 
 export const editCompositionNameButtonClicked = createEvent()
-export const saveCompositionNameButtonClicked = createEvent()
+export const compositionNameSaved = createEvent()
 export const compositionNameChanged = createEvent<string>()
 export const saveCompositionButtonClicked = createEvent()
 export const widgetSelected = createEvent<Tools>()
@@ -22,7 +22,6 @@ sample({
   fn: (prevWidget, newWidget) => prevWidget === newWidget ? null : newWidget,
   target: $tool
 })
-
 
 sample({
   clock: compositionNameChanged,
@@ -36,7 +35,7 @@ sample({
 })
 
 sample({
-  clock: saveCompositionNameButtonClicked,
+  clock: compositionNameSaved,
   fn: () => false,
   target: $isCompositionNameEditing
 })

@@ -12,7 +12,7 @@ const Aside = styled("aside")`
   grid-area: sidebar;
   display: grid;
   grid-template-columns: ${(p: AsideProps) => (p.isOpen ? "2fr 8fr" : "auto")};
-  min-height: 100vh;
+  height: 100%;
 `;
 
 const ActivityBar = styled("ul")`
