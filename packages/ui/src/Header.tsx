@@ -3,21 +3,16 @@ import { AppBar, styled, Toolbar, Typography, Grid } from "@mui/material";
 
 interface Props extends React.PropsWithChildren {
   title: string;
-  gridArea?: string;
-}
-
-interface RootProps {
-  gridArea: string;
+  className?: string;
 }
 
 const Root = styled(AppBar)`
   z-index: 2;
-  grid-area: ${(p: RootProps) => p.gridArea};
 `;
 
-const Header: React.FC<Props> = ({ children, title, gridArea = 'unset' }) => {
+const Header: React.FC<Props> = ({ children, title, className }) => {
   return (
-    <Root position="relative" gridArea={gridArea}>
+    <Root position="relative" className={className}>
       <Toolbar>
         <Grid container spacing={2}>
           <Grid item>

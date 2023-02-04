@@ -123,7 +123,7 @@ function Dojo() {
 
   return (
     <Root>
-      <Header title="Dojo" gridArea="header" />
+      <Header title="Dojo" />
       <Controls>
         <Typography variant="h5">{composition.name}</Typography>
         <Score color="green">Success: {successScore}</Score>

@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import {
-  Box,
   SpeedDial,
   SpeedDialAction,
   SpeedDialIcon,
@@ -42,12 +41,15 @@ const Workspace = styled("div")`
   row-gap: 20px;
 `;
 
+const SituatedHeader = styled(Header)`
+  grid-area: header;
+`
+
 function Editor() {
   const { compositionId } = useParams();
-
   return (
     <Root>
-      <Header title="Editor" gridArea="header" />
+      <SituatedHeader title="Editor" />
       <Sidebar />
       <Workspace>
         <Title />
