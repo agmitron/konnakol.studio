@@ -1,5 +1,5 @@
 {
-  "name": "editor.konnakol.studio",
+  "name": "editor",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:3000",
@@ -60,5 +60,6 @@
   "devDependencies": {
     "@types/lodash.clonedeep": "^4.5.7",
     "eslint-plugin-effector": "^0.8.1"
-  }
+  },
+  "packageManager": "pnpm@7.18.0"
 }

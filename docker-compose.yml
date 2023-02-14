@@ -1,0 +1,16 @@
+version: "2.4"
+
+services:
+  editor:
+    image: editor
+    build:
+      context: .
+      dockerfile: ./apps/client/editor/Dockerfile
+    ports:
+      - 80:80
+    networks: 
+      - client
+    
+networks:
+  client: 
+    driver: bridge
