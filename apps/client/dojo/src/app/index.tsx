@@ -5,6 +5,8 @@ import { ThemeProvider } from "@mui/material";
 import theme from "./theme";
 
 function App() {
+  console.log('dojo.konnakol.studio [changed]')
+  
   return (
     <ThemeProvider theme={theme}>
       <RouterProvider router={router}></RouterProvider>

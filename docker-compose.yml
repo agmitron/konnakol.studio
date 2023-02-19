@@ -7,9 +7,18 @@ services:
       context: .
       dockerfile: ./apps/client/editor/Dockerfile
     ports:
-      - 80:80
-    networks: 
-      - client
+      - 3001:80
+    # networks: 
+    #   - client
+  dojo:
+    image: dojo
+    build:
+      context: .
+      dockerfile: ./apps/client/dojo/Dockerfile
+    ports:
+      - 3002:80
+    # networks: 
+    #   - client
     
 networks:
   client: 
