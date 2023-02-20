@@ -3,34 +3,25 @@ RUN apk add --no-cache libc6-compat
 RUN apk update
 # Set working directory
 WORKDIR /app
-RUN yarn global add turbo
+RUN npm i -g turbo
+RUN npm i -g pnpm
 COPY . .
+# TODO: figure out how to increase install speed
 # RUN turbo prune --scope=editor --docker
  
-# Add lockfile and package.json's of isolated subworkspace
-FROM node:alpine AS installer
-RUN apk add --no-cache libc6-compat
-RUN apk update
-WORKDIR /app
- 
-# First install the dependencies (as they change less often)
-COPY .gitignore .gitignore
-COPY --from=builder /app/out/json/ .
-COPY --from=builder /app/apps/client/editor/package.json .
-# COPY --from=builder /app/out/yarn.lock ./yarn.lock
-RUN yarn install
+RUN pnpm install
  
 # Build the project
-COPY --from=builder /app/out/full/ .
-RUN yarn turbo run build --filter=editor...
+# TODO: figure out how to increase build speed
+RUN turbo run build --filter=editor...
  
 FROM nginx:alpine AS server
 WORKDIR /app
  
-# # TODO Don't run production as root
-# RUN addgroup --system --gid 1001 konnakol.studio
-# RUN adduser --system --uid 1001 editor
-# USER editor
+# # # TODO Don't run production as root
+# # RUN addgroup --system --gid 1001 konnakol.studio
+# # RUN adduser --system --uid 1001 editor
+# # USER editor
  
 COPY --from=builder /app/apps/client/editor/build /usr/share/nginx/html
 EXPOSE 80
