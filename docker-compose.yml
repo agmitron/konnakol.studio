@@ -6,20 +6,16 @@ services:
     build:
       context: .
       dockerfile: ./apps/client/editor/Dockerfile
-    ports:
-      - 3001:80
-    # networks: 
-    #   - client
+    volumes:
+      - editor:/app
   dojo:
     image: dojo
     build:
       context: .
       dockerfile: ./apps/client/dojo/Dockerfile
-    ports:
-      - 3002:80
-    # networks: 
-    #   - client
-    
-networks:
-  client: 
-    driver: bridge
+    volumes:
+      - dojo:/app
+
+volumes:
+  editor:
+  dojo: 
